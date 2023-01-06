@@ -1,0 +1,106 @@
+c-dialog#display-setting .section {
+  padding: 0 40px;
+}
+
+c-dialog#display-setting .content-title {
+  font-size: var(--fs-18);
+  color: var(--cl-subject);
+  font-weight: 600;
+  transition: var(--theme-cl-transition);
+}
+
+c-dialog#display-setting .title {
+  font-size: var(--fs-24);
+  font-weight: 600;
+  color: var(--cl-title);
+  transition: var(--theme-cl-transition);
+}
+
+c-dialog#display-setting .sub-title {
+  font-size: var(--fs-18);
+  color: var(--cl-subject);
+  transition: var(--theme-cl-transition);
+}
+
+c-dialog#display-setting .theme-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: box-shadow 0.4s;
+  padding-bottom: 18px;
+  align-items: center;
+}
+
+c-dialog#display-setting .theme-content-wrapper:hover {
+  box-shadow: var(--shadow-2);
+}
+
+c-dialog#display-setting .font-theme-wrapper {
+  display: flex;
+  align-items: center;
+  padding: 24px;
+  margin-top: 20px;
+  border: 2px solid var(--bg-divider);
+  border-radius: 16px;
+  box-sizing: border-box;
+  transition: var(--theme-border-transition);
+}
+
+c-dialog#display-setting .line-font-theme {
+  height: 8px;
+  background: #dfe1f0;
+  margin-top: 4px;
+  flex-grow: 1;
+}
+
+c-dialog#display-setting .font-start {
+  font-size: var(--fs-16);
+  margin-right: 12px;
+  color: var(--cl-text);
+  transition: var(--theme-cl-transition);
+}
+
+c-dialog#display-setting .font-end {
+  font-size: var(--fs-24);
+  margin-left: 12px;
+  color: var(--cl-text);
+  transition: var(--theme-cl-transition);
+}
+
+c-dialog#display-setting .font-checked {
+  background: #247cff;
+}
+
+c-dialog#display-setting .font-theme-title {
+  font-size: var(--fs-24);
+  font-weight: 600;
+  color: var(--cl-title);
+  transition: var(--theme-cl-transition);
+}
+
+c-dialog#display-setting .font-theme-sub-title {
+  font-size: var(--fs-18);
+  color: var(--cl-subject);
+  transition: var(--theme-cl-transition);
+}
+
+c-dialog#display-setting .font-theme-text {
+  margin-top: 6px;
+  font-size: var(--fs-16);
+  flex: 50%;
+  line-height: 1.6;
+  transition: var(--theme-cl-transition);
+  color: var(--cl-subject);
+}
+
+c-dialog#display-setting .main-text-wrapper {
+  display: flex;
+  column-gap: 24px;
+  flex: 50%;
+  border-right: 2px solid #ebebeb;
+  padding-right: 32px;
+  margin-right: 32px;
+}

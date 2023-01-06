@@ -1,0 +1,113 @@
+.c-header-1 {
+  font-size: var(--fs-64) !important;
+  font-weight: var(--font-semibold) !important;
+  line-height: 102px !important;
+}
+
+.c-header-2 {
+  font-size: var(--fs-48) !important;
+  font-weight: var(--font-semibold) !important;
+  line-height: 76px !important;
+}
+
+.c-header-3 {
+  font-size: var(--fs-36) !important;
+  font-weight: var(--font-semibold) !important;
+  line-height: 58px !important;
+}
+
+.c-header-4 {
+  font-size: var(--fs-32) !important;
+  font-weight: var(--font-semibold) !important;
+  line-height: 52px !important;
+}
+
+.c-header-5 {
+  font-size: var(--fs-28) !important;
+  font-weight: var(--font-semibold) !important;
+  line-height: 44px !important;
+}
+
+.c-header-6 {
+  font-size: var(--fs-24) !important;
+  font-weight: var(--font-semibold) !important;
+  line-height: 40px !important;
+}
+
+.c-subhead-1 {
+  font-size: var(--fs-20) !important;
+  font-weight: var(--font-medium) !important;
+  line-height: 32px !important;
+}
+
+.c-subhead-2 {
+  font-size: var(--fs-18) !important;
+  font-weight: var(--font-medium) !important;
+  line-height: 28px !important;
+}
+
+.c-subhead-3 {
+  font-size: var(--fs-16) !important;
+  font-weight: var(--font-medium) !important;
+  line-height: 24px !important;
+}
+
+.c-subhead-4 {
+  font-size: var(--fs-14) !important;
+  font-weight: var(--font-medium) !important;
+  line-height: 22px !important;
+}
+
+.c-title-1 {
+  font-size: var(--fs-32) !important;
+  font-weight: var(--font-bold) !important;
+  line-height: 52px !important;
+}
+
+.c-title-2 {
+  font-size: var(--fs-24) !important;
+  font-weight: var(--font-semibold) !important;
+  line-height: 40px !important;
+}
+
+.c-title-3 {
+  font-size: var(--fs-18) !important;
+  font-weight: var(--font-semibold) !important;
+  line-height: 28px !important;
+}
+
+.c-title-4 {
+  font-size: var(--fs-16) !important;
+  font-weight: var(--font-semibold) !important;
+  line-height: 24px !important;
+}
+
+.c-title-5 {
+  font-size: var(--fs-14) !important;
+  font-weight: var(--font-semibold) !important;
+  line-height: 22px !important;
+}
+
+.c-body-1 {
+  font-size: var(--fs-18) !important;
+  font-weight: var(--font-regular) !important;
+  line-height: 28px !important;
+}
+
+.c-body-2 {
+  font-size: var(--fs-16) !important;
+  font-weight: var(--font-regular) !important;
+  line-height: 24px !important;
+}
+
+.c-small-1 {
+  font-size: var(--fs-14) !important;
+  font-weight: var(--font-regular) !important;
+  line-height: 20px !important;
+}
+
+.c-small-2 {
+  font-size: var(--fs-12) !important;
+  font-weight: var(--font-regular) !important;
+  line-height: 20px !important;
+}

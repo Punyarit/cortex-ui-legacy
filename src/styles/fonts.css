@@ -1,0 +1,80 @@
+/* stylelint-disable */
+
+@font-face {
+  font-family: 'BaiJamjuree-Regular';
+  src: url('../assets/fonts/BaiJamjuree-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Sarabun-Bold';
+  src: url('../assets/fonts/Sarabun-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Sarabun-BoldItalic';
+  src: url('../assets/fonts/Sarabun-BoldItalic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Sarabun-ExtraBold';
+  src: url('../assets/fonts/Sarabun-ExtraBold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Sarabun-ExtraBoldItalic';
+  src: url('../assets/fonts/Sarabun-ExtraBoldItalic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Sarabun-ExtraLight';
+  src: url('../assets/fonts/Sarabun-ExtraLight.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Sarabun-ExtraLightItalic';
+  src: url('../assets/fonts/Sarabun-ExtraLightItalic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Sarabun-Italic';
+  src: url('../assets/fonts/Sarabun-Italic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Sarabun-Light';
+  src: url('../assets/fonts/Sarabun-Light.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Sarabun-LightItalic';
+  src: url('../assets/fonts/Sarabun-LightItalic.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Sarabun-Medium';
+  src: url('../assets/fonts/Sarabun-Medium.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Sarabun-MediumItalic';
+  src: url('../assets/fonts/Sarabun-MediumItalic.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Sarabun-Regular';
+  src: url('../assets/fonts/Sarabun-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Sarabun-SemiBold';
+  src: url('../assets/fonts/Sarabun-SemiBold.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Sarabun-SemiBoldItalic';
+  src: url('../assets/fonts/Sarabun-SemiBoldItalic.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Sarabun-Thin';
+  src: url('../assets/fonts/Sarabun-Thin.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Sarabun-ThinItalic';
+  src: url('../assets/fonts/Sarabun-ThinItalic.ttf') format('truetype');
+}

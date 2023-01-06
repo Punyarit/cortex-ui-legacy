@@ -1,0 +1,11 @@
+body.light-standard {
+  background: #f9fafb;
+}
+
+body.dim-standard {
+  background: #18191e;
+}
+
+body.dark-standard {
+  background: #000;
+}

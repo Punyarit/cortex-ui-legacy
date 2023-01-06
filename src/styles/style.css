@@ -1,0 +1,77 @@
+/* stylelint-disable selector-id-pattern */
+
+/* component */
+@import './components/table.css';
+@import './components/input.css';
+@import './components/banner.css';
+
+@import './components/display-setting-dialog.css';
+
+/* general */
+@import './typography.css';
+@import './fonts.css';
+@import './icons.css';
+@import './color.css';
+@import './splash-screen.css';
+@import './animations.css';
+
+/* responsive */
+@import './responsive/rps-typography.css';
+
+input,
+textarea {
+  font-family: Sarabun-Regular;
+}
+
+html,
+body {
+  margin: 0;
+  font-family: Sarabun-Regular !important;
+  height: 100vh;
+}
+
+/* for Next/React */
+#__next,
+#root {
+  height: 100%;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 8px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #ebeced;
+  border-radius: 10px;
+}
+
+.truncated-text {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+@media print {
+  @page {
+    margin: 0 !important;
+  }
+
+  .no-print {
+    display: none;
+  }
+
+  .is-print {
+    display: block !important;
+  }
+}
+
+.is-print {
+  display: none;
+}

@@ -1,0 +1,101 @@
+/* Text */
+
+/* gray */
+.c-text-gray-900 {
+  color: var(--gray-900);
+}
+
+.c-text-gray-800 {
+  color: var(--gray-800);
+}
+
+.c-text-gray-700 {
+  color: var(--gray-700);
+}
+
+.c-text-gray-600 {
+  color: var(--gray-600);
+}
+
+.c-text-gray-500 {
+  color: var(--gray-500);
+}
+
+.c-text-gray-400 {
+  color: var(--gray-400);
+}
+
+.c-text-gray-300 {
+  color: var(--gray-300);
+}
+
+.c-text-gray-200 {
+  color: var(--gray-200);
+}
+
+/* color-5 */
+
+.c-text-color-5-700 {
+  color: var(--color-5-700);
+}
+
+.c-text-color-5-500 {
+  color: var(--color-5-500);
+}
+
+.c-text-color-5-400 {
+  color: var(--color-5-400);
+}
+
+.c-text-color-5-300 {
+  color: var(--color-5-300);
+}
+
+.c-text-color-5-200 {
+  color: var(--color-5-200);
+}
+
+.c-text-color-5-100 {
+  color: var(--color-5-100);
+}
+
+/* bg */
+.c-text-gray-100 {
+  color: var(--gray-100);
+}
+
+.c-bg-gray-900 {
+  background-color: var(--gray-900);
+}
+
+.c-bg-gray-800 {
+  background-color: var(--gray-800);
+}
+
+.c-bg-gray-700 {
+  background-color: var(--gray-700);
+}
+
+.c-bg-gray-600 {
+  background-color: var(--gray-600);
+}
+
+.c-bg-gray-500 {
+  background-color: var(--gray-500);
+}
+
+.c-bg-gray-400 {
+  background-color: var(--gray-400);
+}
+
+.c-bg-gray-300 {
+  background-color: var(--gray-300);
+}
+
+.c-bg-gray-200 {
+  background-color: var(--gray-200);
+}
+
+.c-bg-gray-100 {
+  background-color: var(--gray-100);
+}

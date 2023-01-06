@@ -1,0 +1,784 @@
+/* stylelint-disable font-family-name-quotes */
+@import '../style.css';
+
+@font-face {
+  font-family: 'fontello-schedule';
+  src: url('../../assets/icons/schedule.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_line-spacing';
+  src: url('../../assets/icons/u_line-spacing.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-user-md';
+  src: url('../../assets/icons/user_md.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-times-circle';
+  src: url('../../assets/icons/times-circle.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u-car';
+  src: url('../../assets/icons/u_car.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u-car-slash';
+  src: url('../../assets/icons/u_car-slash.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u-minus';
+  src: url('../../assets/icons/u_minus.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_info-circle';
+  src: url('../../assets/icons/u_info-circle.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-i001';
+  src: url('../../assets/icons/i001.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-plus-circle';
+  src: url('../../assets/icons/plus-circle.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-info-circle';
+  src: url('../../assets/icons/info-circle.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-chevron-down';
+  src: url('../../assets/icons/chevron-down.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-chevron-up';
+  src: url('../../assets/icons/chevron-up.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-trash-alt';
+  src: url('../../assets/icons/trash-alt.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-setting';
+  src: url('../../assets/icons/setting.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-focus-add';
+  src: url('../../assets/icons/focus-add.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-paperclip';
+  src: url('../../assets/icons/paperclip.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-check-circle';
+  src: url('../../assets/icons/check-circle.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-brackets-curly';
+  src: url('../../assets/icons/brackets-curly.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-reset';
+  src: url('../../assets/icons/reset.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u-times';
+  src: url('../../assets/icons/u-times.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-fi_edit-3';
+  src: url('../../assets/icons/fi_edit-3.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_label';
+  src: url('../../assets/icons/u_label.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-fi_search';
+  src: url('../../assets/icons/fi_search.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_bed';
+  src: url('../../assets/icons/u_bed.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_clock';
+  src: url('../../assets/icons/u_clock.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_clock-alert';
+  src: url('../../assets/icons/u_clock-alert.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_file-landscape-alt';
+  src: url('../../assets/icons/u_file-landscape-alt.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_file-info-popup';
+  src: url('../../assets/icons/u_file-info-popup.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_sign-alt';
+  src: url('../../assets/icons/u_sign-alt.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_user-location';
+  src: url('../../assets/icons/u_user-location.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-bullet-list';
+  src: url('../../assets/icons/bullet-list.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-icon-error';
+  src: url('../../assets/icons/icon-error.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_book-open';
+  src: url('../../assets/icons/u_book-open.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-fi-log-in';
+  src: url('../../assets/icons/fi_log-in.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_calender';
+  src: url('../../assets/icons/u_calender.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_file-plus-alt';
+  src: url('../../assets/icons/u_file-plus-alt.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_folder-check';
+  src: url('../../assets/icons/u_folder-check.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_record-audio';
+  src: url('../../assets/icons/u_record-audio.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_search';
+  src: url('../../assets/icons/u_search.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_medical-drip';
+  src: url('../../assets/icons/u_medical-drip.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_book-open';
+  src: url('../../assets/icons/u_book-open.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_comment-dots';
+  src: url('../../assets/icons/u_comment-dots.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_eye';
+  src: url('../../assets/icons/u_eye.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_file-edit-alt';
+  src: url('../../assets/icons/u_file-edit-alt.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_location-pin-alt';
+  src: url('../../assets/icons/u_location-pin-alt.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_nurse-hat';
+  src: url('../../assets/icons/u_nurse-hat.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_folder';
+  src: url('../../assets/icons/u_folder.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_more-v';
+  src: url('../../assets/icons/u_more-v.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_plus';
+  src: url('../../assets/icons/u_plus.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-fi_flag';
+  src: url('../../assets/icons/fi_flag.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_play-circle';
+  src: url('../../assets/icons/u_play-circle.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_sign-out-alt';
+  src: url('../../assets/icons/u_sign-out-alt.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-fi_server';
+  src: url('../../assets/icons/fi_server.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-location-marker';
+  src: url('../../assets/icons/location-marker.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_user-circle';
+  src: url('../../assets/icons/u_user-circle.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_paperclip';
+  src: url('../../assets/icons/u_paperclip.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-chevron-right';
+  src: url('../../assets/icons/chevron-right.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-chevron-up';
+  src: url('../../assets/icons/chevron-up.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-chevron-left';
+  src: url('../../assets/icons/chevron-left.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_users-alt';
+  src: url('../../assets/icons/u_users-alt.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_user-plus';
+  src: url('../../assets/icons/u_user-plus.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_check-circle';
+  src: url('../../assets/icons/u_check-circle.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_check';
+  src: url('../../assets/icons/u_check.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_mars';
+  src: url('../../assets/icons/u_mars.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_question-circle';
+  src: url('../../assets/icons/u_question-circle.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_times-circle';
+  src: url('../../assets/icons/u_times-circle.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_venus';
+  src: url('../../assets/icons/u_venus.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_sort-amount-down';
+  src: url('../../assets/icons/u_sort-amount-down.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_user-square';
+  src: url('../../assets/icons/u_user-square.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-x-circle-input';
+  src: url('../../assets/icons/x-circle-input.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-badge-check';
+  src: url('../../assets/icons/badge-check.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_edit-alt';
+  src: url('../../assets/icons/u_edit-alt.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-mail';
+  src: url('../../assets/icons/mail.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_fast-mail';
+  src: url('../../assets/icons/u_fast-mail.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_home-alt';
+  src: url('../../assets/icons/u_home-alt.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_line';
+  src: url('../../assets/icons/u_line.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_mobile-android-check';
+  src: url('../../assets/icons/u_mobile-android-check.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_mobile-android';
+  src: url('../../assets/icons/u_mobile-android.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-cake';
+  src: url('../../assets/icons/cake.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_comments-alt';
+  src: url('../../assets/icons/u_comments-alt.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_comment-question';
+  src: url('../../assets/icons/u_comment-question.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-identification';
+  src: url('../../assets/icons/identification.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_building';
+  src: url('../../assets/icons/u_building.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_envelope-alt';
+  src: url('../../assets/icons/u_envelope-alt.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_more-h';
+  src: url('../../assets/icons/u_more-h.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_phone';
+  src: url('../../assets/icons/u_phone.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_trash-alt';
+  src: url('../../assets/icons/u_trash-alt.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_heart-alt';
+  src: url('../../assets/icons/u_heart-alt.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_book';
+  src: url('../../assets/icons/u_book.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_camera';
+  src: url('../../assets/icons/u_camera.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-check-circle-outlined';
+  src: url('../../assets/icons/check-circle-outlined.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-check-circle-false';
+  src: url('../../assets/icons/check-circle-false.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_tablets';
+  src: url('../../assets/icons/u_tablets.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_medkit';
+  src: url('../../assets/icons/u_medkit.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-equal_distance';
+  src: url('../../assets/icons/equal_distance.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_circle-layer';
+  src: url('../../assets/icons/u_circle-layer.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_eye-glare';
+  src: url('../../assets/icons/u_eye-glare.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_eye-halo';
+  src: url('../../assets/icons/u_eye-halo.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_trees';
+  src: url('../../assets/icons/u_trees.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-exclamation-circle';
+  src: url('../../assets/icons/exclamation-circle.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-fi_fast-forward';
+  src: url('../../assets/icons/fi_fast-forward.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-fi_stop-circle';
+  src: url('../../assets/icons/fi_stop-circle.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_medkit';
+  src: url('../../assets/icons/u_medkit.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-printer';
+  src: url('../../assets/icons/printer.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_file-block-alt';
+  src: url('../../assets/icons/u_file-block-alt.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_upload';
+  src: url('../../assets/icons/u_upload.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_camera-plus';
+  src: url('../../assets/icons/u_camera-plus.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-fi_tool';
+  src: url('../../assets/icons/fi_tool.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_coins';
+  src: url('../../assets/icons/u_coins.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_desktop';
+  src: url('../../assets/icons/u_desktop.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_file-alt';
+  src: url('../../assets/icons/u_file-alt.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_sun';
+  src: url('../../assets/icons/u_sun.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_user-exclamation';
+  src: url('../../assets/icons/u_user-exclamation.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_user-small';
+  src: url('../../assets/icons/u_user-small.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_stopwatch';
+  src: url('../../assets/icons/u_stopwatch.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_gift';
+  src: url('../../assets/icons/u_gift.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_receipt-alt';
+  src: url('../../assets/icons/u_receipt-alt.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_star';
+  src: url('../../assets/icons/u_star.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_heart-medical';
+  src: url('../../assets/icons/u_heart-medical.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_task';
+  src: url('../../assets/icons/u_task.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_print';
+  src: url('../../assets/icons/u_print.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-fi_log-out';
+  src: url('../../assets/icons/fi_log-out.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_notes';
+  src: url('../../assets/icons/u_notes.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_receipt';
+  src: url('../../assets/icons/u_receipt.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_money-withdrawal';
+  src: url('../../assets/icons/u_money-withdrawal.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_image';
+  src: url('../../assets/icons/u_image.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_file';
+  src: url('../../assets/icons/u_file.woff2') format('woff2');
+}
+
+/* sloth */
+@font-face {
+  font-family: 'fontello-u_mobile-vibrate';
+  src: url('../../assets/icons/u_mobile-vibrate.woff2') format('woff2');
+}
+
+/* sloth */
+@font-face {
+  font-family: 'fontello-u_location-point';
+  src: url('../../assets/icons/u_location-point.woff2') format('woff2');
+}
+
+/* sloth */
+@font-face {
+  font-family: 'fontello-u_ban';
+  src: url('../../assets/icons/u_ban.woff2') format('woff2');
+}
+
+/* sloth */
+@font-face {
+  font-family: 'fontello-u_calendar-plus';
+  src: url('../../assets/icons/u_calendar-plus.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-fi_arrow-up';
+  src: url('../../assets/icons/fi_arrow-up.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_top-arrow-from-top';
+  src: url('../../assets/icons/u_top-arrow-from-top.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_comment-download';
+  src: url('../../assets/icons/u_comment-download.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-disposition';
+  src: url('../../assets/icons/disposition.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_refresh';
+  src: url('../../assets/icons/u_refresh.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_sync';
+  src: url('../../assets/icons/u_sync.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_thb-circle';
+  src: url('../../assets/icons/u_thb-circle.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_consult';
+  src: url('../../assets/icons/u_consult.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_file-check-alt';
+  src: url('../../assets/icons/u_file-check-alt.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_download-alt';
+  src: url('../../assets/icons/u_download-alt.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-check-circle-solid';
+  src: url('../../assets/icons/check-circle-solid.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_money-stack';
+  src: url('../../assets/icons/u_money-stack.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_discount';
+  src: url('../../assets/icons/u_discount.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-fi_globe';
+  src: url('../../assets/icons/fi_globe.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_comment-alt-message';
+  src: url('../../assets/icons/u_comment-alt-message.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'fontello-u_scalpel';
+  src: url('../../assets/icons/u_scalpel.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_check-2';
+  src: url('../../assets/icons/u_check-2.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_medical-square';
+  src: url('../../assets/icons/u_medical-square.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_external-link-alt';
+  src: url('../../assets/icons/u_external-link-alt.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-fi_log-in';
+  src: url('../../assets/icons/fi_log-in.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_arrow-to-right';
+  src: url('../../assets/icons/u_arrow-to-right.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_nerd';
+  src: url('../../assets/icons/u_nerd.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_megaphone';
+  src: url('../../assets/icons/u_megaphone.woff2') format('woff2');
+}
+
+.error {
+  color: #f3655c !important;
+}

@@ -1,0 +1,87 @@
+/* stylelint-disable font-family-name-quotes */
+
+@import '../style.css';
+
+@font-face {
+  font-family: 'fontello-setting';
+  src: url('../../assets/icons/setting.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-add-patient';
+  src: url('../../assets/icons/add-patient.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-report';
+  src: url('../../assets/icons/report.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-assessment';
+  src: url('../../assets/icons/assessment.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_airplay';
+  src: url('../../assets/icons/u_airplay.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-staff-scheduling';
+  src: url('../../assets/icons/staff-scheduling.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-whiteboard';
+  src: url('../../assets/icons/whiteboard.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-chevron-up';
+  src: url('../../assets/icons/chevron-up.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-chevron-down';
+  src: url('../../assets/icons/chevron-down.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-chevron-right';
+  src: url('../../assets/icons/chevron-right.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_check-circle';
+  src: url('../../assets/icons/u_check-circle.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_clock';
+  src: url('../../assets/icons/u_clock.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_times-circle';
+  src: url('../../assets/icons/u_times-circle.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-q-triage';
+  src: url('../../assets/icons/q-triage.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-syring';
+  src: url('../../assets/icons/syring.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_history';
+  src: url('../../assets/icons/u_history.woff2') format('woff2');
+}
+
+.error {
+  color: #f3655c !important;
+}

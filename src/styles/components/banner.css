@@ -1,0 +1,11 @@
+c-banner .paragraph {
+  display: flex;
+  flex-flow: column wrap;
+  padding: 24px 80px;
+  row-gap: 8px;
+}
+
+c-banner .text-1 {
+  color: var(--gray-600);
+  font-size: var(--fs-18);
+}

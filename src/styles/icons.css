@@ -1,0 +1,105 @@
+/* stylelint-disable */
+
+@font-face {
+  font-family: 'fontello-log-out';
+  src: url('../assets/icons/log-out.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-layer-sidebar';
+  src: url('../assets/icons/layer-sidebar.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'fontello-u_list-ul';
+  src: url('../assets/icons/u_list-ul.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_times';
+  src: url('../assets/icons/u_times.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_comment-exclamation';
+  src: url('../assets/icons/u_comment-exclamation.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_file-exclamation';
+  src: url('../assets/icons/u_file-exclamation.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_external-link-alt';
+  src: url('../assets/icons/u_external-link-alt.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_link-broken';
+  src: url('../assets/icons/u_link-broken.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_link-alt';
+  src: url('../assets/icons/u_link-alt.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-er_stretcher';
+  src: url('../assets/icons/er_stretcher.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-er_walk';
+  src: url('../assets/icons/er_walk.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-er_wheelchair';
+  src: url('../assets/icons/er_wheelchair.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_browser';
+  src: url('../assets/icons/u_browser.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_print';
+  src: url('../assets/icons/u_print.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-form_unchecked';
+  src: url('../assets/icons/form_unchecked.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-form_checked';
+  src: url('../assets/icons/form_checked.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-location-marker';
+  src: url('../assets/icons/location-marker.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-chevron-down';
+  src: url('../assets/icons/chevron-down.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_home-alt';
+  src: url('../assets/icons/u_home-alt.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-chevron-left';
+  src: url('../assets/icons/chevron-left.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-chevron-right';
+  src: url('../assets/icons/chevron-right.woff2') format('woff2');
+}

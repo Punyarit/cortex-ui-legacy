@@ -1,0 +1,31 @@
+{
+  "name": "cortex-ui-basic",
+  "version": "1.0.0",
+  "description": "This library was generated with [Nx](https://nx.dev).",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "lit": "^2.5.0",
+    "dayjs": "^1.10.7",
+    "@material/mwc-button": "^0.21.0",
+    "@material/mwc-checkbox": "^0.21.0",
+    "@material/mwc-circular-progress": "^0.21.0",
+    "@material/mwc-dialog": "^0.21.0",
+    "@material/mwc-formfield": "^0.22.1",
+    "@material/mwc-linear-progress": "^0.21.0",
+    "@material/mwc-menu": "^0.21.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Punyarit/cortex-ui-basic.git"
+  },
+  "keywords": [
+    "Cortex-UI Basic"
+  ],
+  "author": {
+    "name": "Punyarit"
+  },
+  "license": "ISC"
+}

@@ -1,0 +1,14 @@
+c-input input:disabled {
+  cursor: not-allowed;
+}
+
+c-input input:-webkit-autofill,
+c-input input:-webkit-autofill:hover,
+c-input input:-webkit-autofill:focus,
+c-input input:-webkit-autofill:active {
+  box-shadow: 0 0 0 30px var(--bg-input) inset !important;
+}
+
+c-input input:-webkit-autofill {
+  -webkit-text-fill-color: var(--cl-text) !important;
+}

@@ -1,0 +1,35 @@
+/* stylelint-disable font-family-name-quotes */
+@import '../style.css';
+
+@font-face {
+  font-family: 'fontello-report';
+  src: url('../../assets/icons/report.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-u_calender';
+  src: url('../../assets/icons/u_calender.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-fi_rotate-ccw';
+  src: url('../../assets/icons/fi_rotate-ccw.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-fi_search';
+  src: url('../../assets/icons/fi_search.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-x-circle-input';
+  src: url('../../assets/icons/x-circle-input.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'fontello-chevron-down';
+  src: url('../../assets/icons/chevron-down.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'fontello-setting';
+  src: url('../../assets/icons/setting.woff2') format('woff2');
+}
