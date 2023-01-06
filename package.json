@@ -1,5 +1,5 @@
 {
-  "name": "@cortexcloud/legacy",
+  "name": "@cortexcloud/cortex-ui-legacy",
   "version": "1.0.0",
   "description": "Web Components base on Cortex-UI Design System.",
   "main": "index.js",
