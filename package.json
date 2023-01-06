@@ -1,7 +1,7 @@
 {
-  "name": "cortex-ui-basic",
+  "name": "@cortexcloud/legacy",
   "version": "1.0.1",
-  "description": "This library was generated with [Nx](https://nx.dev).",
+  "description": "Web Components base on Cortex-UI Design System.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:Punyarit/cortex-ui-basic.git"
+    "url": "git@github.com:cortexcloud/cortex-ui-legacy.git"
   },
   "keywords": [
     "Cortex-UI Basic"
