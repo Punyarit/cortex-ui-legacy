@@ -1,6 +1,6 @@
 {
   "name": "cortex-ui-legacy",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Web Components base on Cortex-UI Design System. These Components is Lagacy version but can use for production.",
   "main": "index.js",
   "scripts": {
