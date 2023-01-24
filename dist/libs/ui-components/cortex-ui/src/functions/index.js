@@ -81,7 +81,7 @@ const yearFormat = (language) => {
       return 'YYYY';
   }
 };
-export function jsonClone(data) {
+function jsonClone(data) {
   return JSON.parse(JSON.stringify(data));
 }
 const setProperty = (variable, host) => {
@@ -338,42 +338,40 @@ const external = (environment) => {
     service,
   };
 };
-export default {
-  activeSidebar,
-  asyncClear,
-  asyncEvent,
-  clear,
-  event,
-  external,
-  get,
-  getById,
-  open,
-  parse,
-  remove,
-  removeById,
-  servicePath,
-  setNextPageTitle,
-  setPageTitle,
-  setPreviousPageTitle,
-  shake,
-  transition,
-  value,
-  timeout,
-  findEmptySlot,
-  checkBrowser,
-  capitalize,
-  customEvent,
-  firstParam,
-  setTitle,
-  mappedServices,
-  yearFormat,
-  jsonClone,
-  setProperty,
-  getTextWidth,
-  getParamsObject,
-  getParamsString,
-  getAllQueryParams,
-  debounce,
-  throttle,
-};
+module.exports.activeSidebar = activeSidebar;
+module.exports.asyncClear = asyncClear;
+module.exports.asyncEvent = asyncEvent;
+module.exports.clear = clear;
+module.exports.event = event;
+module.exports.external = external;
+module.exports.get = get;
+module.exports.getById = getById;
+module.exports.open = open;
+module.exports.parse = parse;
+module.exports.remove = remove;
+module.exports.removeById = removeById;
+module.exports.servicePath = servicePath;
+module.exports.setNextPageTitle = setNextPageTitle;
+module.exports.setPageTitle = setPageTitle;
+module.exports.setPreviousPageTitle = setPreviousPageTitle;
+module.exports.shake = shake;
+module.exports.transition = transition;
+module.exports.value = value;
+module.exports.timeout = timeout;
+module.exports.findEmptySlot = findEmptySlot;
+module.exports.checkBrowser = checkBrowser;
+module.exports.capitalize = capitalize;
+module.exports.customEvent = customEvent;
+module.exports.firstParam = firstParam;
+module.exports.setTitle = setTitle;
+module.exports.mappedServices = mappedServices;
+module.exports.yearFormat = yearFormat;
+module.exports.jsonClone = jsonClone;
+module.exports.setProperty = setProperty;
+module.exports.getTextWidth = getTextWidth;
+module.exports.getParamsObject = getParamsObject;
+module.exports.getParamsString = getParamsString;
+module.exports.getAllQueryParams = getAllQueryParams;
+module.exports.debounce = debounce;
+module.exports.throttle = throttle;
 //# sourceMappingURL=index.js.map
