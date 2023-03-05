@@ -11,7 +11,7 @@ export class Image extends LitElement {
   `;
 
   @state()
-  image?: Record<string, unknown>;
+  image?: Record<string, string> | string;
 
   @property({
     type: Object,
@@ -46,9 +46,8 @@ export class Image extends LitElement {
         draggable="${this.draggable}"
         width="${this.width}"
         height="${this.height}"
-        src="${this.image?.default ?? this.image}"
-        alt="${this.alt ?? this.src?.replace(/-/g, ' ')}"
-      />
+        src="${(this.image as Record<string, string>)?.default ?? this.image}"
+        alt="${this.alt ?? this.src?.replace(/-/g, ' ')}" />
     `;
   }
 
@@ -60,9 +59,13 @@ export class Image extends LitElement {
   }
 
   async updated() {
-    this.image = this.isUrl(this.src ?? '')
-      ? this.src
-      : await import(`../../../../../../../src/assets/images/${this.src}.png`);
+    if (this.isUrl(this.src ?? '') || this.isBase64(this.src ?? '')) {
+      this.image = this.src;
+    } else {
+      this.image = (await import(
+        `../../../../../../../src/assets/images/${this.src}.png`
+      )) as Record<string, string>;
+    }
 
     if (this.image) {
       this.dispatchEvent(
@@ -74,6 +77,11 @@ export class Image extends LitElement {
         })
       );
     }
+  }
+
+  private isBase64(src: string): boolean {
+    const base64Regex = /^data:image\/(png|jpeg|gif);base64,/;
+    return base64Regex.test(src);
   }
 
   private isUrl = (srcToCheck: string) => {

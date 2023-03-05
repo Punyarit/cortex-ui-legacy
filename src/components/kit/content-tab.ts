@@ -142,7 +142,7 @@ export class ContentTab extends LitElement {
   sortTab = false;
 
   @property()
-  query: 'param' | 'path' = 'path';
+  query: 'param' | 'path' | 'none' = 'path';
 
   @property()
   tabMoreSpace = 150;
@@ -151,6 +151,9 @@ export class ContentTab extends LitElement {
 
   @property()
   rendering: 'every-content' | 'current-content' = 'every-content';
+
+  @property({ type: Object })
+  changeBrowserTitle = true;
 
   @property()
   borderRadius?: string;
@@ -176,13 +179,12 @@ export class ContentTab extends LitElement {
       <div class="content-tab-outside">
         <div class="content-tab-wrapper">
           ${(this.tabUpdate === 'every-time' ? this.tabs : this.tabDataOnce).map(
-            tab =>
+            (tab) =>
               html`
                 <div
                   id="${tab.path}"
                   class="tab-wrapper ${this.path === tab.path ? 'hightlight' : ''}"
-                  @click="${() => (tab?.disabled ? undefined : this.changeTab(tab.path))}"
-                >
+                  @click="${() => (tab?.disabled ? undefined : this.changeTab(tab.path))}">
                   <div class="tab-text">${tab.text}</div>
                 </div>
               `
@@ -192,8 +194,12 @@ export class ContentTab extends LitElement {
 
         ${this.filteredElement.length > 0
           ? html` <c-dropdown class="dropdown-tab-more">
-              <div class="tab-wrapper-more">More <c-icon size="12" icon="chevron-down"></c-icon></div>
-              <div slot="dropdown" class="dropdown-list">${this.filteredElement.map(res => html` ${res} `)}</div>
+              <div class="tab-wrapper-more">
+                More <c-icon size="12" icon="chevron-down"></c-icon>
+              </div>
+              <div slot="dropdown" class="dropdown-list">
+                ${this.filteredElement.map((res) => html` ${res} `)}
+              </div>
             </c-dropdown>`
           : undefined}
       </div>
@@ -269,7 +275,7 @@ export class ContentTab extends LitElement {
   renderCurrentContent() {
     if (!this.element) {
       const element = {} as Record<string, HTMLDivElement>;
-      (this.childNodes as NodeListOf<HTMLDivElement>).forEach(tab => {
+      (this.childNodes as NodeListOf<HTMLDivElement>).forEach((tab) => {
         element[tab.slot] = tab;
       });
       this.element = element;
@@ -286,7 +292,7 @@ export class ContentTab extends LitElement {
       const tabTextElementRect = tabTextElement?.getBoundingClientRect();
       const dropdownTabMore = this.shadowRoot?.querySelector('.dropdown-tab-more') as HTMLElement;
       let sliderSize: number;
-      if (this.filteredElement.some(div => div.id === currPath)) {
+      if (this.filteredElement.some((div) => div.id === currPath)) {
         sliderSize = dropdownTabMore.getBoundingClientRect().width;
       } else {
         sliderSize = tabTextElementRect.width;
@@ -294,13 +300,16 @@ export class ContentTab extends LitElement {
       // 24 from padding between tab (12*2)
       this.sliderWidth = sliderSize - 24 + 'px';
       // 12 from padding value
-      this.sliderLeft = tabTextElementRect.left - this._contentTapWrapper?.getBoundingClientRect().left + 12 + 'px';
+      this.sliderLeft =
+        tabTextElementRect.left - this._contentTapWrapper?.getBoundingClientRect().left + 12 + 'px';
     }
   }
 
   changeTab(tabPath: string) {
     this.setSlider(tabPath);
-    setBrowserTabName(tabPath);
+    if (this.changeBrowserTitle) {
+      setBrowserTabName(tabPath);
+    }
 
     if (this.query === 'path') {
       this.queryPathTab(tabPath);
@@ -339,7 +348,7 @@ export class ContentTab extends LitElement {
   }
 
   setCurrentContent(tabPath: string | null) {
-    const currContent = tabPath ? this.tabs.find(tab => tab.path === tabPath) : this.tabs?.[0];
+    const currContent = tabPath ? this.tabs.find((tab) => tab.path === tabPath) : this.tabs?.[0];
     this.path = currContent?.path;
     this.currentContent = currContent;
   }
@@ -349,13 +358,16 @@ export class ContentTab extends LitElement {
     const dropdownTabMore = this.shadowRoot?.querySelector('.dropdown-tab-more') as HTMLElement;
     const spacing = dropdownTabMore ? this.tabMoreSpace : 1;
 
-    if (this._contentTapWrapper?.getBoundingClientRect().right - spacing <= lastTab?.getBoundingClientRect().right) {
+    if (
+      this._contentTapWrapper?.getBoundingClientRect().right - spacing <=
+      lastTab?.getBoundingClientRect().right
+    ) {
       this.lastTabRightStamp = lastTab.getBoundingClientRect().right;
       this.filteredElement.unshift(lastTab);
 
       if (dropdownTabMore) {
         dropdownTabMore.style.transform = `translateX(${lastTab.offsetLeft}px)`;
-        if (this.filteredElement.some(div => div.id === this.path)) {
+        if (this.filteredElement.some((div) => div.id === this.path)) {
           this.sliderLeft = lastTab.offsetLeft + 12 + 'px';
           this.sliderWidth = dropdownTabMore.getBoundingClientRect().width - 24 + 'px';
         } else {
@@ -370,7 +382,7 @@ export class ContentTab extends LitElement {
     ) {
       this._contentTapWrapper?.appendChild(this.filteredElement[0]);
       this.filteredElement.shift();
-      if (!this.filteredElement.some(div => div.id === this.path)) {
+      if (!this.filteredElement.some((div) => div.id === this.path)) {
         this.setSlider(this.path);
       }
       this.requestUpdate();

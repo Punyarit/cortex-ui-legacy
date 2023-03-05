@@ -157,7 +157,7 @@ export class Filter extends LitElement {
   @property()
   minWidth?: string;
 
-  @property()
+  @property({ type: Object })
   fixed = false;
 
   @state()
@@ -189,7 +189,7 @@ export class Filter extends LitElement {
   @state()
   selected = [];
 
-  @property()
+  @property({ type: Object })
   defaultSelected = [];
 
   @property()
@@ -206,7 +206,7 @@ export class Filter extends LitElement {
   })
   maxSelected?: number;
 
-  @property()
+  @property({ type: Object })
   searchable = true;
 
   @property({ type: Object })
@@ -233,9 +233,10 @@ export class Filter extends LitElement {
       <div class="custom-menu">
         <div
           class="menu-wrapper${this.selected.length ? '-selected' : ''}"
-          style="${this.padding ? `padding: ${this.padding};` : ``}${this.display ? `display: ${this.display};` : ``}"
-          @click="${this.showMenu}"
-        >
+          style="${this.padding ? `padding: ${this.padding};` : ``}${this.display
+            ? `display: ${this.display};`
+            : ``}"
+          @click="${this.showMenu}">
           <div class="selected-wrapper" style="font-size: ${this.wrapperFontSize ?? `14px`}">
             <span> ${this.filterName} </span>
             ${this.renderSelected()}
@@ -251,17 +252,25 @@ export class Filter extends LitElement {
                 border="transparent"
                 @getSearched="${this.getSearched}"
                 .search="${this.search}"
-                .case="${[{ type: this.searchType, key: 'value' }]}"
-              >
+                .case="${[{ type: this.searchType, key: 'value' }]}">
                 <input type="text" placeholder="Search" />
               </c-search>
               <c-divider gap="0"></c-divider>
             </c-wrap>
 
-            <c-wrap mt="12px" mb="12px" d="flex" justify="space-between" aligns="center" pl="12px" pr="12px">
+            <c-wrap
+              mt="12px"
+              mb="12px"
+              d="flex"
+              justify="space-between"
+              aligns="center"
+              pl="12px"
+              pr="12px">
               ${!this.shownChoices?.length
                 ? ``
-                : html`<div class="filter-title-text" style="padding: 2px 0">${this.filterName}</div>
+                : html`<div class="filter-title-text" style="padding: 2px 0">
+                      ${this.filterName}
+                    </div>
                     <c-button
                       ?hidden="${!this.selected.length}"
                       @click="${this.clearAllFilter}"
@@ -271,29 +280,36 @@ export class Filter extends LitElement {
                       >Clear all</c-button
                     >`}
             </c-wrap>
-            <div class="filter-list" style="${!this.shownChoices?.length ? 'cursor: context-menu;' : ''}">
+            <div
+              class="filter-list"
+              style="${!this.shownChoices?.length ? 'cursor: context-menu;' : ''}">
               ${this.shownChoices?.map((filterText, index) => {
                 const ischecked = this.selected.includes(filterText.value);
                 const optionClass = `menu-list ${this.minWidth && 'menu-width'}`;
-                const optionMaxWidth = `${this.optionMaxWidth !== 'auto' ? 'option-max-width text-ellipsis' : ''} `;
+                const optionMaxWidth = `${
+                  this.optionMaxWidth !== 'auto' ? 'option-max-width text-ellipsis' : ''
+                } `;
                 return this.maxSelected && this.selected.length >= this.maxSelected
                   ? html`
                       <div
-                        @click="${() => (ischecked ? this.emitData(filterText.value, index) : undefined)}"
-                        class="${optionClass}"
-                      >
+                        @click="${() =>
+                          ischecked ? this.emitData(filterText.value, index) : undefined}"
+                        class="${optionClass}">
                         <mwc-checkbox
                           id="mwc-checkbox-${index}"
                           class="${ischecked ? 'checkbox-disabled' : ''}"
                           .checked=${ischecked}
-                          .disabled=${!ischecked}
-                        ></mwc-checkbox>
+                          .disabled=${!ischecked}></mwc-checkbox>
                         <span class="${optionMaxWidth}"> ${filterText.value} </span>
                       </div>
                     `
                   : html`
-                      <div @click="${() => this.emitData(filterText.value, index)}" class="${optionClass}">
-                        <mwc-checkbox id="mwc-checkbox-${index}" .checked=${ischecked}></mwc-checkbox>
+                      <div
+                        @click="${() => this.emitData(filterText.value, index)}"
+                        class="${optionClass}">
+                        <mwc-checkbox
+                          id="mwc-checkbox-${index}"
+                          .checked=${ischecked}></mwc-checkbox>
                         <span class="${optionMaxWidth}"> ${filterText.value} </span>
                       </div>
                     `;
@@ -312,7 +328,7 @@ export class Filter extends LitElement {
   }
 
   private renderSelected() {
-    const values = this.sortDisplaySelected ? [...this.selected].sort() : this.selected;
+    const values = this.sortDisplaySelected ? [...this.selected]?.sort() : this.selected;
 
     return html`
       <div class="selected-max-width text-ellipsis">${values.length ? `: ${values[0]}` : ``}</div>
@@ -327,7 +343,7 @@ export class Filter extends LitElement {
       case 'short':
         return `, +${selected.length - 1}`;
       case 'all':
-        return selected.slice(1).map(s => `, ${s}`);
+        return selected.slice(1).map((s) => `, ${s}`);
       case 'default':
       default:
         return `${this.selectedMaxWidth !== 'auto' ? ',' : ''} and ${selected.length - 1} more`;
@@ -335,7 +351,7 @@ export class Filter extends LitElement {
   }
 
   firstUpdated() {
-    this.search = this.filterBy?.map(value => ({ value }));
+    this.search = this.filterBy?.map((value) => ({ value }));
     if (this.defaultSelected.length) {
       this.selected = [...this.defaultSelected];
       this.dispatchEvent(
@@ -351,7 +367,7 @@ export class Filter extends LitElement {
 
   updated(e) {
     if (e.has('filterBy')) {
-      this.search = this.filterBy?.map(value => ({ value }));
+      this.search = this.filterBy?.map((value) => ({ value }));
     }
 
     if (e.has('defaultSelected')) {
@@ -375,7 +391,9 @@ export class Filter extends LitElement {
   sortSearched() {
     const searched = this.searched?.slice();
     if (this.sortSelected) {
-      searched.sort((a, b) => +this.selected.includes(b?.value) - +this.selected.includes(a?.value));
+      searched?.sort(
+        (a, b) => +this.selected.includes(b?.value) - +this.selected.includes(a?.value)
+      );
     }
     this.shownChoices = searched;
   }
@@ -415,10 +433,13 @@ export class Filter extends LitElement {
       .shadowRoot.querySelector('.mdc-menu-surface');
     (menuSurface as HTMLDivElement).style.overflow = 'visible';
     (menuSurface as HTMLDivElement).style.borderRadius = '8px';
-    (menuSurface as HTMLDivElement).style.boxShadow = '0px 2px 8px #2a39590a, 0px 16px 32px #3f527a1f';
+    (menuSurface as HTMLDivElement).style.boxShadow =
+      '0px 2px 8px #2a39590a, 0px 16px 32px #3f527a1f';
     (menuSurface as HTMLDivElement).style.zIndex = '9999';
 
-    const menuList = mwcMenu.shadowRoot.querySelector('mwc-list').shadowRoot.querySelector('.mdc-deprecated-list');
+    const menuList = mwcMenu.shadowRoot
+      .querySelector('mwc-list')
+      .shadowRoot.querySelector('.mdc-deprecated-list');
     (menuList as HTMLDivElement).style.padding = 'var(--mdc-list-vertical-padding, 0) 4px 0 0';
 
     if (this.fixed) {
@@ -437,7 +458,9 @@ export class Filter extends LitElement {
 
     this.sortSearched();
     mwcMenu.open = true;
-    const filterSearch = this.shadowRoot?.querySelector('#filter-search > input') as HTMLInputElement;
+    const filterSearch = this.shadowRoot?.querySelector(
+      '#filter-search > input'
+    ) as HTMLInputElement;
     if (filterSearch.value) {
       filterSearch.value = '';
       (filterSearch.parentNode as Search).executeSearch();
@@ -451,7 +474,7 @@ export class Filter extends LitElement {
       this.selected.push(value);
     } else {
       this.selected.splice(
-        this.selected.findIndex(select => select === value),
+        this.selected.findIndex((select) => select === value),
         1
       );
     }
