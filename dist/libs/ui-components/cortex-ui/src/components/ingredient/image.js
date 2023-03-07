@@ -38,9 +38,12 @@ let Image = class Image extends LitElement {
         }
     }
     async updated() {
-        this.image = this.isUrl(this.src ?? '')
-            ? this.src
-            : await import(`../../../../../../../src/assets/images/${this.src}.png`);
+        if (this.isUrl(this.src ?? '') || this.isBase64(this.src ?? '')) {
+            this.image = this.src;
+        }
+        else {
+            this.image = (await import(`../../../../../../../src/assets/images/${this.src}.png`));
+        }
         if (this.image) {
             this.dispatchEvent(new CustomEvent('loaded', {
                 detail: {
@@ -49,6 +52,10 @@ let Image = class Image extends LitElement {
                 bubbles: true,
             }));
         }
+    }
+    isBase64(src) {
+        const base64Regex = /^data:image\/(png|jpeg|gif);base64,/;
+        return base64Regex.test(src);
     }
 };
 Image.styles = css `

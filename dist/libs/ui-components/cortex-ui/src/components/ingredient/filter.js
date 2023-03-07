@@ -120,7 +120,7 @@ let Filter = class Filter extends LitElement {
     `;
     }
     renderSelected() {
-        const values = this.sortDisplaySelected ? [...this.selected].sort() : this.selected;
+        const values = this.sortDisplaySelected ? [...this.selected]?.sort() : this.selected;
         return html `
       <div class="selected-max-width text-ellipsis">${values.length ? `: ${values[0]}` : ``}</div>
       <span style="margin-left:${this.selectedMaxWidth === 'auto' ? '4px' : '0'}">
@@ -172,7 +172,7 @@ let Filter = class Filter extends LitElement {
     sortSearched() {
         const searched = this.searched?.slice();
         if (this.sortSelected) {
-            searched.sort((a, b) => +this.selected.includes(b?.value) - +this.selected.includes(a?.value));
+            searched?.sort((a, b) => +this.selected.includes(b?.value) - +this.selected.includes(a?.value));
         }
         this.shownChoices = searched;
     }

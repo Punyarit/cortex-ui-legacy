@@ -17,6 +17,7 @@ let ContentTab = class ContentTab extends LitElement {
         // prop tabMoreSpace ไว้สำหรับปรับแต่งให้การแสดง tab more แสดงผลได้ถูกต้อง
         // โดย tabMoreSpace คือค่าสำหรับคำนวนพื้นที่เหลืออยู่ของด้านขวาสุดชงแถบ Tab
         this.rendering = 'every-content';
+        this.changeBrowserTitle = true;
         this.tabUpdate = 'every-time';
         this.tabDataOnce = [];
     }
@@ -142,7 +143,9 @@ let ContentTab = class ContentTab extends LitElement {
     }
     changeTab(tabPath) {
         this.setSlider(tabPath);
-        setBrowserTabName(tabPath);
+        if (this.changeBrowserTitle) {
+            setBrowserTabName(tabPath);
+        }
         if (this.query === 'path') {
             this.queryPathTab(tabPath);
         }
@@ -369,6 +372,10 @@ __decorate([
     __metadata("design:type", String)
 ], ContentTab.prototype, "rendering", void 0);
 __decorate([
+    property({ type: Object }),
+    __metadata("design:type", Object)
+], ContentTab.prototype, "changeBrowserTitle", void 0);
+__decorate([
     property(),
     __metadata("design:type", String)
 ], ContentTab.prototype, "borderRadius", void 0);
@@ -386,4 +393,4 @@ ContentTab = __decorate([
     customElement('c-content-tab')
 ], ContentTab);
 export { ContentTab };
-//# sourceMappingURL=content-tab.js.map
+// # sourceMappingURL=content-tab.js.map
