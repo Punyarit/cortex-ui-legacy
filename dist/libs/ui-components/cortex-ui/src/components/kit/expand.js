@@ -20,6 +20,7 @@ let Expand = class Expand extends LitElement {
         this.corner = 'LEFT';
         this.fluid = false;
         this.subjectWhiteSpace = 'normal';
+        this.stickyTitle = false;
     }
     render() {
         return html `
@@ -46,8 +47,11 @@ let Expand = class Expand extends LitElement {
         }
 
         .expand-title-wrapper {
+          position: ${this.stickyTitle ? 'sticky' : 'relative'};
+          ${this.stickyTitle ? 'top:0;' : ''}
           ${this.subjectBackgroundColor ? 'background-color: ' + this.subjectBackgroundColor + ';' : ''}
           border-radius: ${this.subjectRadius};
+
         }
       </style>
       <div class="expand-wrapper">
@@ -103,7 +107,6 @@ Expand.styles = css `
       display: flex;
       justify-content: space-between;
       align-items: center;
-      position: relative;
       z-index: 1;
       /* TODO: w8 for test other page */
       /* margin-bottom: 6px; */
@@ -218,6 +221,10 @@ __decorate([
     property(),
     __metadata("design:type", Object)
 ], Expand.prototype, "subjectWhiteSpace", void 0);
+__decorate([
+    property({ type: Object }),
+    __metadata("design:type", Object)
+], Expand.prototype, "stickyTitle", void 0);
 Expand = __decorate([
     customElement('c-expand')
 ], Expand);

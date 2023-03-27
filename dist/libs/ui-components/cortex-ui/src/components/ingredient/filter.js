@@ -393,7 +393,7 @@ __decorate([
     __metadata("design:type", String)
 ], Filter.prototype, "minWidth", void 0);
 __decorate([
-    property(),
+    property({ type: Object }),
     __metadata("design:type", Object)
 ], Filter.prototype, "fixed", void 0);
 __decorate([
@@ -433,7 +433,7 @@ __decorate([
     __metadata("design:type", Object)
 ], Filter.prototype, "selected", void 0);
 __decorate([
-    property(),
+    property({ type: Object }),
     __metadata("design:type", Object)
 ], Filter.prototype, "defaultSelected", void 0);
 __decorate([
@@ -455,7 +455,7 @@ __decorate([
     __metadata("design:type", Number)
 ], Filter.prototype, "maxSelected", void 0);
 __decorate([
-    property(),
+    property({ type: Object }),
     __metadata("design:type", Object)
 ], Filter.prototype, "searchable", void 0);
 __decorate([

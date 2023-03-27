@@ -20,6 +20,9 @@ let Print = class Print extends LitElement {
             timeout(delay)
                 .then(() => {
                 const cTheme = document.body.querySelector('c-theme');
+                const cxTheme = document.body.querySelector('cx-theme');
+                const cxModal = document.body.querySelector('cx-modal');
+                cxTheme?.appendChild(cxModal);
                 cTheme?.firstElementChild?.classList?.add('no-print');
                 this?.classList?.add('is-print');
                 cTheme?.appendChild(this);
@@ -36,6 +39,9 @@ let Print = class Print extends LitElement {
                     callback();
                 if (cPapers)
                     cPapers.nextPageLine = true;
+                const cTheme = document.body.querySelector('c-theme');
+                const cxModal = document.body.querySelector('cx-modal');
+                cTheme?.appendChild(cxModal);
             });
         };
     }
