@@ -10,6 +10,7 @@ let TimePicker = class TimePicker extends LitElement {
     constructor() {
         super(...arguments);
         this.timestamp = '';
+        this.disabled = false;
         this.width = '140px';
         this.height = '48px';
         this.value = {
@@ -18,6 +19,7 @@ let TimePicker = class TimePicker extends LitElement {
         };
         this.isUpdated = false;
         this.initValue = 'after';
+        this.fixed = false;
         this.error = false;
         this.renderTimeSelect = (type) => html ` <div class="time-select-wrapper">
     <c-button @click="${() => this.setTime(type, 'increase')}" buttonWidth="48" buttonHeight="48" type="flat">
@@ -25,7 +27,7 @@ let TimePicker = class TimePicker extends LitElement {
     </c-button>
     <c-input width="48px" height="48px">
       <input
-        @input="${() => this.formatInput(type)}"
+        @input="${e => this.formatInput(type, e)}"
         @keydown="${(e) => this.storeValue(e)}"
         id="${type}-input"
         type="number"
@@ -46,21 +48,30 @@ let TimePicker = class TimePicker extends LitElement {
           --input-color: #c9d4f1;
           --icon-color: #7386af;
         }
+        .disabled {
+          cursor: not-allowed;
+        }
       </style>
       <c-dropdown
+        .disabled="${this.disabled}"
         @dropdown-opened="${this.triggerDropdown}"
         @dropdown-closed="${this.triggerDropdown}"
         width="${this.width}"
+        .fixed="${this.fixed}"
       >
         <div>
           <c-input
             .error="${this.error}"
             width="${this.width}"
-            borderColor="var(--input-color)"
+            borderColor="${this.disabled ? 'var(--gray-400)' : 'var(--input-color)'}"
             height="${this.height}"
+            .disabled="${this.disabled}"
+            class="${this.disabled ? 'disabled' : ''}"
           >
-            <c-icon icon="u_clock" color="var(--icon-color)"></c-icon>
-            <span>${this.hourDisplay ?? '--'}:${this.minuteDisplay ?? '--'}</span>
+            <c-icon class="${this.disabled ? 'disabled' : ''}" icon="u_clock" color="var(--icon-color)"></c-icon>
+            <span class="${this.disabled ? 'disabled' : ''}"
+              >${this.hourDisplay ?? '--'}:${this.minuteDisplay ?? '--'}</span
+            >
           </c-input>
         </div>
 
@@ -149,9 +160,9 @@ let TimePicker = class TimePicker extends LitElement {
         }
         this.setTimeState(type, input.value);
     }
-    formatInput(type) {
-        const maxValue = type === 'hour' ? 23 : 59;
+    formatInput(type, e) {
         const input = this.shadowRoot?.querySelector(`#${type}-input`);
+        const maxValue = type === 'hour' ? 23 : 59;
         if (+input.value > maxValue) {
             input.value = this.oldValue;
             this.errorText =
@@ -165,6 +176,9 @@ let TimePicker = class TimePicker extends LitElement {
         }
         if (input.value.length === 3) {
             input.value = input.value.slice(1, 3);
+        }
+        if (e.data === '-') {
+            input.value = this.oldValue;
         }
         this.setTimeState(type, input.value);
         this.dropdownTriggerEvent();
@@ -183,15 +197,16 @@ let TimePicker = class TimePicker extends LitElement {
         host.style.setProperty('--input-color', event.detail.status === 'OPENED' ? '#5096FF' : '#C9D4F1');
         host.style.setProperty('--icon-color', event.detail.status === 'OPENED' ? '#5096FF' : '#7386AF');
     }
-    updated() {
-        if (this.timestamp && !this.isUpdated) {
+    updated(changedProps) {
+        if (this.timestamp) {
             this.setTimeStamp();
-            this.isUpdated = true;
-            if (this.initValue === 'before') {
+            if (this.initValue === 'before' || this.isUpdated) {
                 this.hourDisplay = this.hourValue;
                 this.minuteDisplay = this.minuteValue;
             }
         }
+        this.isUpdated = true;
+        super.update(changedProps);
     }
     dropdownTriggerEvent() {
         this.dispatchWithCurrentTime('getValue');
@@ -273,6 +288,10 @@ __decorate([
     __metadata("design:type", Object)
 ], TimePicker.prototype, "timestamp", void 0);
 __decorate([
+    property({ type: Object }),
+    __metadata("design:type", Object)
+], TimePicker.prototype, "disabled", void 0);
+__decorate([
     property(),
     __metadata("design:type", Object)
 ], TimePicker.prototype, "width", void 0);
@@ -312,6 +331,10 @@ __decorate([
     query('c-dropdown'),
     __metadata("design:type", Object)
 ], TimePicker.prototype, "dropdownRef", void 0);
+__decorate([
+    property({ type: Object }),
+    __metadata("design:type", Object)
+], TimePicker.prototype, "fixed", void 0);
 __decorate([
     property({
         type: Object,

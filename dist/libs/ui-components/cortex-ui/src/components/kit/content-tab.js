@@ -1,4 +1,5 @@
 import { __decorate, __metadata } from "tslib";
+/* eslint-disable */
 import { css, html, LitElement } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 import { getParamsObject, getParamsString, setBrowserTabName, timeout } from '../../helper/helper';
@@ -20,6 +21,36 @@ let ContentTab = class ContentTab extends LitElement {
         this.changeBrowserTitle = true;
         this.tabUpdate = 'every-time';
         this.tabDataOnce = [];
+        this.setTabMore = () => {
+            const lastTab = this._contentTapWrapper?.lastElementChild;
+            const dropdownTabMore = this.shadowRoot?.querySelector('.dropdown-tab-more');
+            const spacing = dropdownTabMore ? this.tabMoreSpace : 1;
+            if (this._contentTapWrapper?.getBoundingClientRect().right - spacing <= lastTab?.getBoundingClientRect().right) {
+                this.lastTabRightStamp = lastTab.getBoundingClientRect().right;
+                this.filteredElement.unshift(lastTab);
+                if (dropdownTabMore) {
+                    dropdownTabMore.style.transform = `translateX(${lastTab.offsetLeft}px)`;
+                    if (this.filteredElement.some(div => div.id === this.path)) {
+                        this.sliderLeft = lastTab.offsetLeft + 12 + 'px';
+                        this.sliderWidth = dropdownTabMore.getBoundingClientRect().width - 24 + 'px';
+                    }
+                    else {
+                        this.setSlider(this.path);
+                    }
+                }
+                this._contentTapWrapper?.removeChild(lastTab);
+                this.requestUpdate();
+            }
+            else if (this.filteredElement.length > 0 &&
+                this._contentTapWrapper?.getBoundingClientRect().right - spacing >= this.lastTabRightStamp) {
+                this._contentTapWrapper?.appendChild(this.filteredElement[0]);
+                this.filteredElement.shift();
+                if (!this.filteredElement.some(div => div.id === this.path)) {
+                    this.setSlider(this.path);
+                }
+                this.requestUpdate();
+            }
+        };
     }
     render() {
         return html `
@@ -57,6 +88,10 @@ let ContentTab = class ContentTab extends LitElement {
       </div>
     `;
     }
+    disconnectedCallback() {
+        super.disconnectedCallback();
+        window.removeEventListener('resize', this.setTabMore);
+    }
     firstUpdated() {
         if (this.sortTab) {
             // FIXME: typing
@@ -67,9 +102,7 @@ let ContentTab = class ContentTab extends LitElement {
         this.onDispatchEvent('getTabValue', {
             value: this.currentContent,
         });
-        window.addEventListener('resize', () => {
-            this.setTabMore();
-        });
+        window.addEventListener('resize', this.setTabMore);
         this.onDispatchEvent('changeTab', {
             changeTab: this.changeTab.bind(this),
         });
@@ -180,36 +213,6 @@ let ContentTab = class ContentTab extends LitElement {
         const currContent = tabPath ? this.tabs.find(tab => tab.path === tabPath) : this.tabs?.[0];
         this.path = currContent?.path;
         this.currentContent = currContent;
-    }
-    setTabMore() {
-        const lastTab = this._contentTapWrapper?.lastElementChild;
-        const dropdownTabMore = this.shadowRoot?.querySelector('.dropdown-tab-more');
-        const spacing = dropdownTabMore ? this.tabMoreSpace : 1;
-        if (this._contentTapWrapper?.getBoundingClientRect().right - spacing <= lastTab?.getBoundingClientRect().right) {
-            this.lastTabRightStamp = lastTab.getBoundingClientRect().right;
-            this.filteredElement.unshift(lastTab);
-            if (dropdownTabMore) {
-                dropdownTabMore.style.transform = `translateX(${lastTab.offsetLeft}px)`;
-                if (this.filteredElement.some(div => div.id === this.path)) {
-                    this.sliderLeft = lastTab.offsetLeft + 12 + 'px';
-                    this.sliderWidth = dropdownTabMore.getBoundingClientRect().width - 24 + 'px';
-                }
-                else {
-                    this.setSlider(this.path);
-                }
-            }
-            this._contentTapWrapper?.removeChild(lastTab);
-            this.requestUpdate();
-        }
-        else if (this.filteredElement.length > 0 &&
-            this._contentTapWrapper?.getBoundingClientRect().right - spacing >= this.lastTabRightStamp) {
-            this._contentTapWrapper?.appendChild(this.filteredElement[0]);
-            this.filteredElement.shift();
-            if (!this.filteredElement.some(div => div.id === this.path)) {
-                this.setSlider(this.path);
-            }
-            this.requestUpdate();
-        }
     }
     onDispatchEvent(event, data) {
         this.dispatchEvent(new CustomEvent(event, {
@@ -393,4 +396,4 @@ ContentTab = __decorate([
     customElement('c-content-tab')
 ], ContentTab);
 export { ContentTab };
-// # sourceMappingURL=content-tab.js.map
+//# sourceMappingURL=content-tab.js.map

@@ -27,7 +27,10 @@ let Icon = class Icon extends LitElement {
           --transition: ${this.transition};
         }
       </style>
-      <span class="icon-wrapper"> &#xe800; </span>
+      <span class="icon-wrapper">
+        <slot></slot>
+        &#xe800;
+      </span>
     `;
     }
 };

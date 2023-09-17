@@ -1,4 +1,5 @@
 import { __decorate, __metadata } from "tslib";
+/* eslint-disable */
 import '@material/mwc-checkbox';
 import '@material/mwc-menu';
 import { css, html, LitElement } from 'lit';
@@ -8,11 +9,13 @@ import './button';
 import './divider';
 import './icon';
 import './image';
+import './radio';
 import './search';
 let Filter = class Filter extends LitElement {
     constructor() {
         super(...arguments);
         this.fixed = false;
+        this.disabled = false;
         this.searchType = 'includes';
         this.selectedMaxWidth = 'auto';
         this.optionMaxWidth = 'auto';
@@ -20,9 +23,18 @@ let Filter = class Filter extends LitElement {
         this.maxHeight = '30vh';
         this.selected = [];
         this.defaultSelected = [];
+        this.disableSelected = [];
         this.searchable = true;
         this.sortSelected = true;
         this.sortDisplaySelected = false;
+        this.inputStyle = 'checkbox';
+        this.textColor = '#247cff';
+        this.bgColor = '#d3e5ff';
+        this.disabledSortPriority = false;
+        this.border = 'none';
+        this.filterBySplitted = [];
+        this.filterByUpdated = false;
+        this.filterByCached = [];
     }
     render() {
         return html `
@@ -30,13 +42,29 @@ let Filter = class Filter extends LitElement {
         :host {
           --selected-width: ${this.selectedMaxWidth};
           --option-width: ${this.optionMaxWidth};
+          cursor: ${this.disabled ? 'not-allowed' : 'auto'};
+          --background: ${this.disabled ? '#F5F8FF' : this.bgColor || '#d3e5ff'};
+          --border: ${this.disabled ? '1px solid #C9D4F1' : this.border};
+          --text-color: ${this.textColor || '#247cff'};
         }
         .filter-list {
           max-height: ${this.maxHeight};
         }
 
+        c-radio {
+          width: 48px;
+          height: 48px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding-bottom: 6px;
+          box-sizing: border-box;
+        }
         mwc-menu {
           --mdc-menu-min-width: calc(${this.minWidth} - 8px);
+        }
+        .custom-menu {
+          pointer-events: ${this.disabled ? 'none' : 'auto'};
         }
       </style>
       <div class="custom-menu">
@@ -81,38 +109,92 @@ let Filter = class Filter extends LitElement {
                     >`}
             </c-wrap>
             <div class="filter-list" style="${!this.shownChoices?.length ? 'cursor: context-menu;' : ''}">
-              ${this.shownChoices?.map((filterText, index) => {
-            const ischecked = this.selected.includes(filterText.value);
-            const optionClass = `menu-list ${this.minWidth && 'menu-width'}`;
-            const optionMaxWidth = `${this.optionMaxWidth !== 'auto' ? 'option-max-width text-ellipsis' : ''} `;
-            return this.maxSelected && this.selected.length >= this.maxSelected
-                ? html `
-                      <div
-                        @click="${() => (ischecked ? this.emitData(filterText.value, index) : undefined)}"
-                        class="${optionClass}"
-                      >
-                        <mwc-checkbox
-                          id="mwc-checkbox-${index}"
-                          class="${ischecked ? 'checkbox-disabled' : ''}"
-                          .checked=${ischecked}
-                          .disabled=${!ischecked}
-                        ></mwc-checkbox>
-                        <span class="${optionMaxWidth}"> ${filterText.value} </span>
-                      </div>
-                    `
-                : html `
-                      <div @click="${() => this.emitData(filterText.value, index)}" class="${optionClass}">
-                        <mwc-checkbox id="mwc-checkbox-${index}" .checked=${ischecked}></mwc-checkbox>
-                        <span class="${optionMaxWidth}"> ${filterText.value} </span>
-                      </div>
-                    `;
-        })}
+              ${this.shownChoices?.length
+            ? this.shownChoices?.map((filterBy, index) => {
+                const ischecked = this.selected.includes(filterBy.value);
+                const valueDisabled = this.disableSelected.includes(filterBy.value);
+                const optionClass = `menu-list ${this.minWidth && 'menu-width'}`;
+                const iconDisplay = filterBy?.icon;
+                const optionMaxWidth = `${this.optionMaxWidth !== 'auto' ? 'option-max-width text-ellipsis' : ''} `;
+                return this.maxSelected && this.selected.length >= this.maxSelected
+                    ? html `
+                          <div
+                            @click="${() => !valueDisabled || ischecked ? this.emitData(filterBy.value, index) : undefined}"
+                            class="${optionClass}"
+                          >
+                            <mwc-checkbox
+                              id="mwc-checkbox-${index}"
+                              class="${ischecked ? 'checkbox-disabled' : ''}"
+                              .checked=${ischecked}
+                              .disabled=${valueDisabled || !ischecked}
+                            ></mwc-checkbox>
+
+                            ${iconDisplay
+                        ? html `<c-icon
+                                  style="margin-right:12px;margin-left:8px"
+                                  icon="${iconDisplay}"
+                                  color="${filterBy.iconColor}"
+                                  size="${filterBy.iconSize}"
+                                ></c-icon>`
+                        : undefined}
+                            <span
+                              class="${optionMaxWidth}"
+                              style="${filterBy?.textColor
+                        ? `color:${filterBy?.textColor};`
+                        : ''} ${filterBy?.fontWeight ? `font-weight:${filterBy?.fontWeight}` : ''}"
+                            >
+                              ${filterBy.value}
+                            </span>
+                          </div>
+                        `
+                    : html `
+                          <div
+                            @click="${valueDisabled ? null : () => this.emitData(filterBy.value, index)}"
+                            class="${optionClass}"
+                          >
+                            ${this.inputStyle === 'checkbox'
+                        ? html `<mwc-checkbox
+                                  id="mwc-checkbox-${index}"
+                                  .checked=${ischecked}
+                                  .disabled="${valueDisabled}"
+                                ></mwc-checkbox>`
+                        : html `<c-radio
+                                  id="mwc-checkbox-${index}"
+                                  .isChecked="${ischecked}"
+                                  .disabled="${valueDisabled}"
+                                ></c-radio>`}
+                            ${iconDisplay
+                        ? html `<c-icon
+                                  style="margin-right:12px;margin-left:8px"
+                                  icon="${iconDisplay}"
+                                  color="${filterBy.iconColor}"
+                                  size="${filterBy.iconSize}"
+                                ></c-icon>`
+                        : undefined}
+                            <span
+                              class="${optionMaxWidth}"
+                              style="${filterBy?.textColor
+                        ? `color:${filterBy?.textColor};`
+                        : ''} ${filterBy?.fontWeight ? `font-weight:${filterBy?.fontWeight}` : ''}"
+                            >
+                              ${filterBy.value}
+                            </span>
+                          </div>
+                        `;
+            })
+            : undefined}
               ${!this.shownChoices?.length
             ? html ` <c-wrap mb="12px" d="flex" justify="start" aligns="center" layout="column">
                     <c-image width="120px" src="task-management-no-matching-results"></c-image>
                     <span class="no-matching-result-font">No matching results.</span></c-wrap
                   >`
             : ``}
+              ${this.optionLimit &&
+            this.optionLoadMore &&
+            this.shownChoices?.length &&
+            this.shownChoices?.length < this.filterByCached.length
+            ? html ` <div class="filter-limit" @click="${this.splitFilterFromCache}">เพิ่มเติม</div>`
+            : undefined}
             </div>
           </div>
         </mwc-menu>
@@ -140,7 +222,13 @@ let Filter = class Filter extends LitElement {
         }
     }
     firstUpdated() {
-        this.search = this.filterBy?.map(value => ({ value }));
+        // this.search = this.filterBy?.map(value => {
+        //   if (typeof value === 'string') {
+        //     return { value };
+        //   } else {
+        //     return value;
+        //   }
+        // });
         if (this.defaultSelected.length) {
             this.selected = [...this.defaultSelected];
             this.dispatchEvent(new CustomEvent('getValue', {
@@ -151,11 +239,36 @@ let Filter = class Filter extends LitElement {
             }));
         }
     }
-    updated(e) {
-        if (e.has('filterBy')) {
-            this.search = this.filterBy?.map(value => ({ value }));
+    async splitFilterFromCache() {
+        let filterBy = JSON.parse(JSON.stringify(this.shownChoices));
+        filterBy = filterBy.concat(...this.filterBySplitted?.splice(0, this.optionLoadMore));
+        this.shownChoices = [...filterBy];
+        this.currentShownChoicesLength = this.shownChoices.length;
+        this.filterByUpdated = true;
+    }
+    willUpdate(_changedProperties) {
+        const isLimit = this.optionLimit && this.optionLoadMore;
+        // execute once
+        if (_changedProperties.has('shownChoices') && this.filterByUpdated === false && isLimit) {
+            if (this.filterBy.length > this.optionLimit) {
+                this.filterByCached = JSON.parse(JSON.stringify(this.shownChoices));
+                this.filterBySplitted.push(...this.shownChoices?.splice(this.optionLimit));
+            }
         }
-        if (e.has('defaultSelected')) {
+        if (_changedProperties.has('shownChoices') && this.filterByUpdated && isLimit) {
+            this.shownChoices = this.shownChoices.slice(0, this.currentShownChoicesLength);
+        }
+        if (_changedProperties.has('filterBy')) {
+            this.search = this.filterBy?.map(value => {
+                if (typeof value === 'string') {
+                    return { value };
+                }
+                else {
+                    return value;
+                }
+            });
+        }
+        if (_changedProperties.has('defaultSelected')) {
             this.selected = [...this.defaultSelected];
             this.dispatchEvent(new CustomEvent('getValue', {
                 detail: {
@@ -164,15 +277,19 @@ let Filter = class Filter extends LitElement {
                 bubbles: true,
             }));
         }
+        super.willUpdate(_changedProperties);
     }
     getSearched(e) {
         this.searched = e.detail.searched;
         this.sortSearched();
     }
     sortSearched() {
-        const searched = this.searched?.slice();
+        let searched = this.searched?.slice();
         if (this.sortSelected) {
             searched?.sort((a, b) => +this.selected.includes(b?.value) - +this.selected.includes(a?.value));
+        }
+        if (this.disabledSortPriority) {
+            searched = this.sortByDisabledPriority(this.disableSelected, searched);
         }
         this.shownChoices = searched;
     }
@@ -186,7 +303,12 @@ let Filter = class Filter extends LitElement {
         }));
     }
     clearAllFilter() {
-        this.selected = [];
+        if (this.disableSelected.length) {
+            this.selected = [...this.disableSelected];
+        }
+        else {
+            this.selected = [];
+        }
         this.sortSearched();
         this.dispatchEvent(new CustomEvent('getValue', {
             detail: {
@@ -228,14 +350,41 @@ let Filter = class Filter extends LitElement {
             filterSearch.parentNode.executeSearch();
         }
     }
+    sortByDisabledPriority(shouldPriority, search) {
+        if (!search)
+            return;
+        let dataCopy = [...search];
+        dataCopy.sort((a, b) => {
+            let indexA = shouldPriority.indexOf(a.value);
+            let indexB = shouldPriority.indexOf(b.value);
+            if (indexA === -1 && indexB === -1) {
+                return 0;
+            }
+            else if (indexA === -1) {
+                return 1;
+            }
+            else if (indexB === -1) {
+                return -1;
+            }
+            else {
+                return indexA - indexB;
+            }
+        });
+        return dataCopy;
+    }
     emitData(value, index) {
         const mwcCheckbox = this.shadowRoot?.querySelector(`#mwc-checkbox-${index}`);
-        mwcCheckbox.checked = !mwcCheckbox.checked;
-        if (mwcCheckbox.checked) {
-            this.selected.push(value);
+        if (this.inputStyle === 'radio') {
+            this.selected = [value];
         }
         else {
-            this.selected.splice(this.selected.findIndex(select => select === value), 1);
+            mwcCheckbox.checked = !mwcCheckbox.checked;
+            if (mwcCheckbox.checked) {
+                this.selected.push(value);
+            }
+            else {
+                this.selected.splice(this.selected.findIndex(select => select === value), 1);
+            }
         }
         this.requestUpdate();
         this.dispatchEvent(new CustomEvent('getValue', {
@@ -250,6 +399,7 @@ let Filter = class Filter extends LitElement {
 Filter.styles = css `
     mwc-checkbox {
       --mdc-theme-secondary: #247cff;
+      --mdc-checkbox-disabled-color: var(--color-5-100);
     }
 
     .menu-wrapper {
@@ -267,7 +417,7 @@ Filter.styles = css `
     }
 
     .menu-wrapper-selected {
-      color: #247cff;
+      color: var(--text-color);
       border: 0;
       appearance: none;
       outline: none;
@@ -277,7 +427,8 @@ Filter.styles = css `
       column-gap: 16px;
       justify-content: space-between;
       box-sizing: border-box;
-      background: #d3e5ff;
+      background: var(--background);
+      border: var(--border);
     }
 
     ::placeholder {
@@ -318,6 +469,19 @@ Filter.styles = css `
     /* Handle on hover */
     ::-webkit-scrollbar-thumb:hover {
       background: #8ba3b8;
+    }
+
+    .filter-limit {
+      color: var(--primary-500);
+      justify-content: center;
+      display: flex;
+      font-size: 14px;
+      transition: 0.125s ease;
+    }
+
+    .filter-limit:active {
+      color: var(--primary-700);
+      background: #ebebff;
     }
 
     /* width */
@@ -401,6 +565,10 @@ __decorate([
     __metadata("design:type", Array)
 ], Filter.prototype, "search", void 0);
 __decorate([
+    property({ type: Object }),
+    __metadata("design:type", Object)
+], Filter.prototype, "disabled", void 0);
+__decorate([
     property(),
     __metadata("design:type", Object)
 ], Filter.prototype, "searchType", void 0);
@@ -433,9 +601,13 @@ __decorate([
     __metadata("design:type", Object)
 ], Filter.prototype, "selected", void 0);
 __decorate([
-    property({ type: Object }),
+    property({ type: Array }),
     __metadata("design:type", Object)
 ], Filter.prototype, "defaultSelected", void 0);
+__decorate([
+    property({ type: Array }),
+    __metadata("design:type", Object)
+], Filter.prototype, "disableSelected", void 0);
 __decorate([
     property(),
     __metadata("design:type", String)
@@ -455,7 +627,19 @@ __decorate([
     __metadata("design:type", Number)
 ], Filter.prototype, "maxSelected", void 0);
 __decorate([
-    property({ type: Object }),
+    property({
+        type: Number,
+    }),
+    __metadata("design:type", Number)
+], Filter.prototype, "optionLimit", void 0);
+__decorate([
+    property({
+        type: Number,
+    }),
+    __metadata("design:type", Number)
+], Filter.prototype, "optionLoadMore", void 0);
+__decorate([
+    property(),
     __metadata("design:type", Object)
 ], Filter.prototype, "searchable", void 0);
 __decorate([
@@ -466,6 +650,28 @@ __decorate([
     property({ type: Object }),
     __metadata("design:type", Object)
 ], Filter.prototype, "sortDisplaySelected", void 0);
+__decorate([
+    property({
+        type: String,
+    }),
+    __metadata("design:type", String)
+], Filter.prototype, "inputStyle", void 0);
+__decorate([
+    property(),
+    __metadata("design:type", Object)
+], Filter.prototype, "textColor", void 0);
+__decorate([
+    property(),
+    __metadata("design:type", Object)
+], Filter.prototype, "bgColor", void 0);
+__decorate([
+    property({ type: Object }),
+    __metadata("design:type", Object)
+], Filter.prototype, "disabledSortPriority", void 0);
+__decorate([
+    property(),
+    __metadata("design:type", Object)
+], Filter.prototype, "border", void 0);
 Filter = __decorate([
     customElement('c-filter')
 ], Filter);

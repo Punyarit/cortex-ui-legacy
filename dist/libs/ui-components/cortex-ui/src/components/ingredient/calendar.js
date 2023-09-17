@@ -86,7 +86,7 @@ let Calendar = class Calendar extends LitElement {
     renderWeekday() {
         // ใช้ท่านี้ในการ Render เพราะ c-translation เข้าถึงตัวของ c-translate ไม่ได้ถ้าใช้ท่า html``
         const weekElement = this.shadowRoot?.querySelector('.week-wrapper');
-        const weekDays = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+        const weekDays = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
         let dayHtml = '';
         for (const day of weekDays) {
             dayHtml += `<c-translate class="day">${day}</c-translate>`;

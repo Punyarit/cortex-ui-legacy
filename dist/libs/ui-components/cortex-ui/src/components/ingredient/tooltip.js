@@ -9,6 +9,7 @@ let Tooltip = class Tooltip extends LitElement {
         this.delayOut = '0';
         this.position = 'default';
         this.withDialog = false;
+        this.width = 'max-content';
     }
     render() {
         return html `
@@ -34,7 +35,7 @@ let Tooltip = class Tooltip extends LitElement {
           content: attr(data-tooltip);
           color: white;
           padding: 12px;
-          width: max-content;
+          width: ${this.width};
           background: #3f527a;
           border-radius: 6px;
           z-index: 999;
@@ -145,6 +146,10 @@ __decorate([
     property(),
     __metadata("design:type", Object)
 ], Tooltip.prototype, "withDialog", void 0);
+__decorate([
+    property(),
+    __metadata("design:type", Object)
+], Tooltip.prototype, "width", void 0);
 Tooltip = __decorate([
     customElement('c-tooltip')
 ], Tooltip);

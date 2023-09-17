@@ -51,7 +51,7 @@ export class Dropdown extends LitElement {
   @property()
   minWidth?: string;
 
-  @property()
+  @property({ type: Object })
   fixed = false;
 
   @property()
@@ -115,14 +115,12 @@ export class Dropdown extends LitElement {
               @closed="${() => {
                 this.removeArrow();
                 this.dropdownTrigger('closed');
-              }}"
-            >
+              }}">
               <div
                 id="dropdown-item-wrapper"
                 @click="${this.selfClick}"
                 @mouseover="${this.mouseOVer}"
-                @mouseout="${this.mouseOut}"
-              >
+                @mouseout="${this.mouseOut}">
                 <slot name="dropdown"></slot>
               </div>
             </mwc-menu>`}
@@ -172,14 +170,17 @@ export class Dropdown extends LitElement {
     const menuSurface = mwcMenu?.shadowRoot
       ?.querySelector('mwc-menu-surface')
       ?.shadowRoot?.querySelector('.mdc-menu-surface');
-    const menuList = mwcMenu?.shadowRoot?.querySelector('mwc-list')?.shadowRoot?.querySelector('.mdc-deprecated-list');
+    const menuList = mwcMenu?.shadowRoot
+      ?.querySelector('mwc-list')
+      ?.shadowRoot?.querySelector('.mdc-deprecated-list');
 
     if (menuWrapper && mwcMenu && menuSurface && menuList) {
       // fix scroll and shadow
       (menuSurface as HTMLDivElement).style.overflow = 'visible';
       (menuSurface as HTMLDivElement).style.borderRadius = '8px';
       (menuSurface as HTMLDivElement).style.overflow = 'hidden';
-      (menuSurface as HTMLDivElement).style.boxShadow = '0px 2px 8px #2a39590a, 0px 16px 32px #3f527a1f';
+      (menuSurface as HTMLDivElement).style.boxShadow =
+        '0px 2px 8px #2a39590a, 0px 16px 32px #3f527a1f';
       (menuSurface as HTMLDivElement).style.zIndex = '9999';
       (menuList as HTMLDivElement).style.padding = 'var(--mdc-list-vertical-padding, 0) 0';
 
@@ -197,7 +198,10 @@ export class Dropdown extends LitElement {
             const mwcRect = mwcMenu.getBoundingClientRect();
 
             if (this.withArrow) {
-              host.style.setProperty('--with-dialog-left', `${menuClientRect.x - mwcRect.x - 15}px`);
+              host.style.setProperty(
+                '--with-dialog-left',
+                `${menuClientRect.x - mwcRect.x - 15}px`
+              );
               host.style.setProperty(
                 '--with-dialog-top',
                 `${menuClientRect.y - mwcRect.y + menuClientRect.height + 15}px`
@@ -210,7 +214,10 @@ export class Dropdown extends LitElement {
               mwcMenu.classList.add('with-arrow');
             } else {
               host.style.setProperty('--with-dialog-left', `${menuClientRect.x - mwcRect.x}px`);
-              host.style.setProperty('--with-dialog-top', `${menuClientRect.y - mwcRect.y + menuClientRect.height}px`);
+              host.style.setProperty(
+                '--with-dialog-top',
+                `${menuClientRect.y - mwcRect.y + menuClientRect.height}px`
+              );
               mwcMenu.classList.add('with-dialog');
             }
           });

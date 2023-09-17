@@ -1,4 +1,5 @@
 import { __decorate, __metadata } from "tslib";
+/* eslint-disable */
 import { html, LitElement } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import ui from '../../functions';
@@ -16,6 +17,7 @@ import './dropdown';
 let Layout = class Layout extends LitElement {
     constructor() {
         super(...arguments);
+        this.userMenus = [];
         this.menus = [
             {
                 text: 'ออกจากระบบ',
@@ -36,8 +38,11 @@ let Layout = class Layout extends LitElement {
         };
         this.locationEvent = false;
         this.titleHeight = '64px';
+        this.manualActivePath = false;
         this.sideBarHidden = false;
         this.isLocationEllipsis = false;
+        this.isIframeDialogOpen = false;
+        this.iframeDialogBackdropDuration = 200;
     }
     render() {
         return html `
@@ -50,9 +55,12 @@ let Layout = class Layout extends LitElement {
           --width-calc-viewport: ${this.isFullScreen ? '64px' : '128px'};
           --page-height-calc: ${!this.header || this.isFullScreen ? '0px' : '66px'};
           --title-height: ${this.titleHeight};
+          --iframeDialogBackdropDuration: ${this.iframeDialogBackdropDuration}ms;
         }
       </style>
 
+      <div class="isIframeDialog-title"></div>
+      <div class="isIframeDialog-sidebar"></div>
       <div class="layout-wrapper">
         <!-- sidebar -->
         ${this.isFullScreen
@@ -76,23 +84,25 @@ let Layout = class Layout extends LitElement {
                 </div>
 
                 <div class="menu-list-wrapper">
-                  ${this.sideMenu?.map(menu => {
+                  ${this.sideMenu?.map(menuValue => {
                     return html `
                       <div class="menu-wrapper-outside">
                         <div
-                          class="menu-wrapper ${menu?.active?.some(menu => menu?.replace(/-/g, ' ') === this.titleName?.toLowerCase()) ||
-                        this.titleName?.toLowerCase() === menu.name.toLowerCase() ||
-                        menu.name.toLowerCase() === this.activePath?.toLowerCase()
+                          class="menu-wrapper ${(this.activePath
+                        ? menuValue.name.toLowerCase() === this.activePath?.toLowerCase()
+                        : menuValue?.active?.some(menu => menu?.replace(/-/g, ' ') === this.titleName?.toLowerCase()) || this.titleName?.toLowerCase() === menuValue.name.toLowerCase())
                         ? 'menu-active'
                         : ''}"
-                          @click="${() => this.selectMenu(menu)}"
+                          @click="${() => this.selectMenu(menuValue)}"
                         >
-                          <c-tooltip message="${menu.name}" position="center">
+                          <c-tooltip message="${menuValue.name}" position="center">
                             <div class="icon-wrapper">
-                              <c-icon size="24" icon="${menu.icon}"> </c-icon>
+                              <c-icon size="24" icon="${menuValue.icon}" style="position:relative">
+                                ${menuValue.isNotice ? html `<div class="menu-notification"></div>` : undefined}
+                              </c-icon>
                             </div>
                           </c-tooltip>
-                          <span class="menu-text">${menu.name}</span>
+                          <span class="menu-text">${menuValue.name}</span>
                         </div>
                       </div>
                     `;
@@ -171,6 +181,14 @@ let Layout = class Layout extends LitElement {
                 bubbles: true,
             }));
     }
+    noticeMenu(menuName, isNotice = true) {
+        this.sideMenu.forEach((menu, index) => {
+            if (menuName.toLowerCase() === menu.name.toLowerCase()) {
+                this.sideMenu[index].isNotice = isNotice;
+                this.requestUpdate('sideMenu');
+            }
+        });
+    }
     displayDialogClose(e) {
         this.displayDialog = e.detail.open;
     }
@@ -185,17 +203,22 @@ let Layout = class Layout extends LitElement {
         this.displayDialog = true;
     }
     menuAction(action) {
-        switch (action) {
-            case 'setDisplay':
-                this.displayDialogOpen();
-                break;
-            case 'logOut':
-                localStorage.removeItem('theme');
-                this.onDisplatchEvent(action);
-                break;
-            default:
-                this.onDisplatchEvent(action);
-                break;
+        if (typeof action === 'function') {
+            action();
+        }
+        else {
+            switch (action) {
+                case 'setDisplay':
+                    this.displayDialogOpen();
+                    break;
+                case 'logOut':
+                    localStorage.removeItem('theme');
+                    this.onDisplatchEvent(action);
+                    break;
+                default:
+                    this.onDisplatchEvent(action);
+                    break;
+            }
         }
     }
     onDisplatchEvent(action) {
@@ -246,6 +269,51 @@ let Layout = class Layout extends LitElement {
             localStorage.setItem('c-layout-previousUrl', currentUrl || '');
         }
         localStorage.setItem('c-layout-currentUrl', location.pathname);
+    }
+    willUpdate(_changedProperties) {
+        if (_changedProperties.has('userMenus')) {
+            this.menus.unshift(...this.userMenus);
+        }
+        super.willUpdate(_changedProperties);
+    }
+    updated() {
+        this.iframeDialogOpen();
+    }
+    iframeDialogOpen() {
+        if (this.iframeTimeout) {
+            clearTimeout(this.iframeTimeout);
+        }
+        if (this.isIframeDialogOpen) {
+            this.createIframeDialogBackdrop();
+            this.setIframeBackdropClassList('add');
+            this.setiframeDialogBackdropOpacity('1');
+        }
+        else if (this.iframeDialogBackdrop?.title.classList.contains('iframe-dialog-background-title')) {
+            this.setiframeDialogBackdropOpacity('0');
+            this.iframeTimeout = setTimeout(() => {
+                this.setIframeBackdropClassList('remove');
+            }, this.iframeDialogBackdropDuration);
+        }
+    }
+    setIframeBackdropClassList(classList) {
+        if (!this.iframeDialogBackdrop?.sidebar)
+            return;
+        this.iframeDialogBackdrop.sidebar.classList[classList]('iframe-dialog-background-sidebar');
+        this.iframeDialogBackdrop.title.classList[classList]('iframe-dialog-background-title');
+    }
+    setiframeDialogBackdropOpacity(opaicty) {
+        if (!this.iframeDialogBackdrop?.sidebar)
+            return;
+        this.iframeDialogBackdrop.sidebar.style.opacity = opaicty;
+        this.iframeDialogBackdrop.title.style.opacity = opaicty;
+    }
+    createIframeDialogBackdrop() {
+        if (this.iframeDialogBackdrop)
+            return;
+        this.iframeDialogBackdrop = {
+            sidebar: this.shadowRoot?.querySelector('.isIframeDialog-sidebar'),
+            title: this.shadowRoot?.querySelector('.isIframeDialog-title'),
+        };
     }
     async firstUpdated() {
         this.observeDom();
@@ -360,6 +428,14 @@ let Layout = class Layout extends LitElement {
 };
 Layout.styles = [layoutStyle];
 __decorate([
+    property({ type: Object }),
+    __metadata("design:type", Object)
+], Layout.prototype, "userMenus", void 0);
+__decorate([
+    state(),
+    __metadata("design:type", Object)
+], Layout.prototype, "menus", void 0);
+__decorate([
     property(),
     __metadata("design:type", Object)
 ], Layout.prototype, "startScreen", void 0);
@@ -420,9 +496,7 @@ __decorate([
     __metadata("design:type", Object)
 ], Layout.prototype, "displayDialog", void 0);
 __decorate([
-    state()
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ,
+    state(),
     __metadata("design:type", Object)
 ], Layout.prototype, "timerInterval", void 0);
 __decorate([
@@ -456,6 +530,10 @@ __decorate([
     __metadata("design:type", String)
 ], Layout.prototype, "activePath", void 0);
 __decorate([
+    property({ type: Object }),
+    __metadata("design:type", Object)
+], Layout.prototype, "manualActivePath", void 0);
+__decorate([
     property(),
     __metadata("design:type", String)
 ], Layout.prototype, "forcedTitleName", void 0);
@@ -467,6 +545,14 @@ __decorate([
     state(),
     __metadata("design:type", Object)
 ], Layout.prototype, "isLocationEllipsis", void 0);
+__decorate([
+    property({ type: Object }),
+    __metadata("design:type", Object)
+], Layout.prototype, "isIframeDialogOpen", void 0);
+__decorate([
+    property({ type: String }),
+    __metadata("design:type", Object)
+], Layout.prototype, "iframeDialogBackdropDuration", void 0);
 Layout = __decorate([
     customElement('c-layout')
 ], Layout);

@@ -6,6 +6,7 @@ export interface SideMenu {
   active?: string[];
   disabled?: boolean;
   pageTitle?: string;
+  isNotice?: boolean;
 }
 
 export * from './options';

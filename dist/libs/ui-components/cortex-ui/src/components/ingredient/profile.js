@@ -37,6 +37,16 @@ let Profile = class Profile extends LitElement {
         //   '--level-color': currentTab === 'general-info' ? 'red' : 'blue'
         // }"
         this.level = null;
+        this.resizeProfileSpacing = () => {
+            const contentScroll = this.shadowRoot?.querySelector('.content-scroll');
+            if (contentScroll) {
+                this.scrollValue = `${
+                // 78 / 38 is bottom spacing of the card
+                document.body.clientHeight -
+                    contentScroll?.getBoundingClientRect()?.top -
+                    (this.config.seeAll ? 78 + (this.fixedSeeAll ? -9 : 0) : 38)}px`;
+            }
+        };
     }
     render() {
         return html `
@@ -45,7 +55,13 @@ let Profile = class Profile extends LitElement {
         :host {
           --scroll-height: ${this.scrollValue};
           --level-color: ${this.config.uploadPhoto ? 'var(--color-5-400)' : 'var(--status-light-gray)'};
-          --calc-height: ${this.config.seeAll ? (this.fixedSeeAll ? '128px' : '190px') : '157px'};
+          --calc-height: ${this.calcHeight
+            ? this.calcHeight
+            : this.config.seeAll
+                ? this.fixedSeeAll
+                    ? '128px'
+                    : '190px'
+                : '157px'};
         }
 
         .bg-level {
@@ -172,15 +188,11 @@ let Profile = class Profile extends LitElement {
     }
     connectedCallback() {
         super.connectedCallback();
-        window.addEventListener('resize', () => {
-            this.resizeProfileSpacing();
-        });
+        window.addEventListener('resize', this.resizeProfileSpacing);
     }
     disconnectedCallback() {
         super.disconnectedCallback();
-        window.removeEventListener('resize', () => {
-            this.resizeProfileSpacing();
-        });
+        window.removeEventListener('resize', this.resizeProfileSpacing);
     }
     renderInfoHTML(title, desc, line) {
         return desc !== null
@@ -200,16 +212,6 @@ let Profile = class Profile extends LitElement {
     }
     renderProfileInfo() {
         return this.info ? (Array.isArray(this.info) ? this.renderInfoArray() : this.renderInfoObject()) : undefined;
-    }
-    resizeProfileSpacing() {
-        const contentScroll = this.shadowRoot?.querySelector('.content-scroll');
-        if (contentScroll) {
-            this.scrollValue = `${
-            // 78 / 38 is bottom spacing of the card
-            document.body.clientHeight -
-                contentScroll?.getBoundingClientRect()?.top -
-                (this.config.seeAll ? 78 + (this.fixedSeeAll ? -9 : 0) : 38)}px`;
-        }
     }
     updated() {
         this.resizeProfileSpacing();
@@ -303,6 +305,10 @@ __decorate([
     property(),
     __metadata("design:type", String)
 ], Profile.prototype, "level", void 0);
+__decorate([
+    property({ type: String }),
+    __metadata("design:type", String)
+], Profile.prototype, "calcHeight", void 0);
 Profile = __decorate([
     customElement('c-profile')
 ], Profile);

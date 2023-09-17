@@ -1,7 +1,8 @@
 import { __decorate, __metadata } from "tslib";
+/* eslint-disable */
 import { css, html, LitElement } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import { timeout } from '../../helper/helper';
+import { debounce, timeout } from '../../helper/helper';
 import '../ingredient/icon';
 let Print = class Print extends LitElement {
     constructor() {
@@ -9,9 +10,13 @@ let Print = class Print extends LitElement {
         this.paper = 'A4';
         this.preview = false;
         this.setLanguage = false;
-        this.isCPapersPreview = false;
         this.destroyFirst = false;
         this.hotkey = false;
+        this.afterPrintEvent = () => {
+            if (this.afterPrintCallback) {
+                debounce(this.afterPrintCallback, 100);
+            }
+        };
         this.print = (delay = 0, callback) => {
             const cPapers = this.querySelector('c-papers');
             if (this.preview) {
@@ -22,6 +27,7 @@ let Print = class Print extends LitElement {
                 const cTheme = document.body.querySelector('c-theme');
                 const cxTheme = document.body.querySelector('cx-theme');
                 const cxModal = document.body.querySelector('cx-modal');
+                const cLayout = document.body.querySelector('c-layout');
                 cxTheme?.appendChild(cxModal);
                 cTheme?.firstElementChild?.classList?.add('no-print');
                 this?.classList?.add('is-print');
@@ -29,19 +35,17 @@ let Print = class Print extends LitElement {
                 if (cPapers) {
                     cPapers.nextPageLine = false;
                 }
+                this.afterPrintCallback = () => {
+                    if (callback)
+                        callback();
+                    if (cPapers)
+                        cPapers.nextPageLine = true;
+                    cTheme?.insertBefore(cxModal, cLayout);
+                    this?.remove();
+                };
             })
                 .then(() => {
                 window.print();
-            })
-                .then(() => {
-                this?.remove();
-                if (callback)
-                    callback();
-                if (cPapers)
-                    cPapers.nextPageLine = true;
-                const cTheme = document.body.querySelector('c-theme');
-                const cxModal = document.body.querySelector('cx-modal');
-                cTheme?.appendChild(cxModal);
             });
         };
     }
@@ -54,15 +58,7 @@ let Print = class Print extends LitElement {
       </style>
 
       ${this.preview
-            ? html ` ${this.isCPapersPreview
-                ? html `<div class="papers-preview-alert">c-papers is in preview state.</div>`
-                : undefined}
-
-            <button
-              .disabled="${this.isCPapersPreview}"
-              class="print-btn feature-btn ${this.isCPapersPreview ? 'btn-disabled' : ''}"
-              @click="${() => this.printPreview({ previewAfterPrint: true })}"
-            >
+            ? html ` <button class="print-btn feature-btn" @click="${() => this.printPreview({ previewAfterPrint: true })}">
               <c-icon icon="u_print" size="26"></c-icon>
             </button>
             ${this.CTranslations && this.setLanguage
@@ -91,17 +87,18 @@ let Print = class Print extends LitElement {
             : html ` <slot></slot> `}
     `;
     }
+    disconnectedCallback() {
+        super.disconnectedCallback();
+        window.removeEventListener('afterprint', this.afterPrintEvent);
+    }
     connectedCallback() {
         super.connectedCallback();
+        window.addEventListener('afterprint', this.afterPrintEvent);
     }
     firstUpdated() {
         this.onDispatchEvent('print', {
             print: this.print.bind(this),
         });
-        const cPapers = this.querySelector('c-papers');
-        if (cPapers && cPapers.preview) {
-            this.isCPapersPreview = true;
-        }
         const cTranslations = this?.querySelectorAll('c-translation');
         if (cTranslations?.length) {
             this.CTranslations = cTranslations;
@@ -148,19 +145,19 @@ let Print = class Print extends LitElement {
             });
         }, 0);
     }
-    asyncPrint(delay) {
+    asyncPrint(delay, afterPrintCallback) {
         this.preview = true;
         // if use visibility:hidden /display:none = wrong display
         this.style.opacity = '0';
         const cPapers = this.querySelector('c-papers');
         if (cPapers)
-            cPapers?.genaratePaper();
+            cPapers?.generatePaper();
         setTimeout(() => {
             this.style.opacity = '1';
-            this.printPreview({ previewAfterPrint: false });
+            this.printPreview({ previewAfterPrint: false }, afterPrintCallback);
         }, delay || 0);
     }
-    printPreview({ previewAfterPrint }) {
+    printPreview({ previewAfterPrint }, callback) {
         this.preview = false;
         const cTheme = document.body.querySelector('c-theme');
         timeout(0).then(() => {
@@ -171,6 +168,11 @@ let Print = class Print extends LitElement {
                 if (previewAfterPrint) {
                     this.preview = true;
                 }
+                if (callback)
+                    callback();
+                setTimeout(() => {
+                    callback = undefined;
+                }, 1);
             });
         });
     }
@@ -355,10 +357,6 @@ __decorate([
     state(),
     __metadata("design:type", Object)
 ], Print.prototype, "CTranslations", void 0);
-__decorate([
-    state(),
-    __metadata("design:type", Object)
-], Print.prototype, "isCPapersPreview", void 0);
 __decorate([
     property(),
     __metadata("design:type", Object)

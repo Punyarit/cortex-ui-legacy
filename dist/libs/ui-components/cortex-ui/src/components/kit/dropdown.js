@@ -1,4 +1,5 @@
 import { __decorate, __metadata } from "tslib";
+/* eslint-disable */
 import { MenuBase } from '@material/mwc-menu/mwc-menu-base';
 import { css, html, LitElement } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
@@ -19,6 +20,67 @@ let Dropdown = class Dropdown extends LitElement {
         this.withDialog = false;
         this.updateOnce = false;
         this.disabled = false;
+        this.showMenu = () => {
+            const menuWrapper = this.shadowRoot?.querySelector('.dropdown-wrapper');
+            const mwcMenu = this.shadowRoot?.querySelector('#mwcMenu');
+            const menuSurface = mwcMenu?.shadowRoot
+                ?.querySelector('mwc-menu-surface')
+                ?.shadowRoot?.querySelector('.mdc-menu-surface');
+            const menuList = mwcMenu?.shadowRoot?.querySelector('mwc-list')?.shadowRoot?.querySelector('.mdc-deprecated-list');
+            if (menuWrapper && mwcMenu && menuSurface && menuList) {
+                // fix scroll and shadow
+                menuSurface.style.overflow = 'visible';
+                menuSurface.style.borderRadius = '8px';
+                menuSurface.style.overflow = 'hidden';
+                menuSurface.style.boxShadow = '0px 2px 8px #2a39590a, 0px 16px 32px #3f527a1f';
+                menuSurface.style.zIndex = '9999';
+                menuList.style.padding = 'var(--mdc-list-vertical-padding, 0) 0';
+                if (this.fixed) {
+                    const menuClientRect = menuWrapper.getBoundingClientRect();
+                    if (this.withDialog) {
+                        const host = this.shadowRoot?.host;
+                        host.style.setProperty('--with-dialog-left', `0`);
+                        host.style.setProperty('--with-dialog-top', `0`);
+                        mwcMenu.classList.add('with-dialog');
+                        timeout(0).then(() => {
+                            const mwcMenu = this.shadowRoot?.querySelector('#mwcMenu');
+                            const mwcRect = mwcMenu.getBoundingClientRect();
+                            if (this.withArrow) {
+                                host.style.setProperty('--with-dialog-left', `${menuClientRect.x - mwcRect.x - 15}px`);
+                                host.style.setProperty('--with-dialog-top', `${menuClientRect.y - mwcRect.y + menuClientRect.height + 15}px`);
+                                host.style.setProperty('--with-arrow-left', `${menuClientRect.x - mwcRect.x}px`);
+                                host.style.setProperty('--with-arrow-top', `${menuClientRect.y - mwcRect.y + menuClientRect.height - 15}px`);
+                                mwcMenu.classList.add('with-arrow');
+                            }
+                            else {
+                                host.style.setProperty('--with-dialog-left', `${menuClientRect.x - mwcRect.x}px`);
+                                host.style.setProperty('--with-dialog-top', `${menuClientRect.y - mwcRect.y + menuClientRect.height}px`);
+                                mwcMenu.classList.add('with-dialog');
+                            }
+                        });
+                    }
+                    else {
+                        mwcMenu.fixed = true;
+                        if (this.position === 'BOTTOM_LEFT') {
+                            mwcMenu.x = menuClientRect.left / 2;
+                            mwcMenu.y = (menuClientRect.top + menuClientRect.height) / 2;
+                        }
+                        else if (this.position === 'TOP_LEFT') {
+                            mwcMenu.x = menuClientRect.left / 2;
+                            mwcMenu.y = menuClientRect.top / 2;
+                        }
+                    }
+                }
+                else {
+                    mwcMenu.anchor = menuWrapper;
+                    mwcMenu.corner = this.position;
+                }
+                if (!this.minWidth) {
+                    this.minWidth = `${menuWrapper.offsetWidth}px`;
+                }
+                mwcMenu.show();
+            }
+        };
     }
     render() {
         return html `
@@ -67,12 +129,8 @@ let Dropdown = class Dropdown extends LitElement {
         if (!this.updateOnce) {
             const dropdownWrapper = this.shadowRoot?.querySelector('.dropdown-wrapper');
             if (this.event === 'all') {
-                dropdownWrapper?.addEventListener('click', () => {
-                    this.showMenu();
-                });
-                dropdownWrapper?.addEventListener('mouseover', () => {
-                    this.showMenu();
-                });
+                dropdownWrapper?.addEventListener('click', this.showMenu);
+                dropdownWrapper?.addEventListener('mouseover', this.showMenu);
                 return;
             }
             dropdownWrapper?.addEventListener(this.event, () => {
@@ -80,6 +138,12 @@ let Dropdown = class Dropdown extends LitElement {
             });
             this.updateOnce = true;
         }
+    }
+    disconnectedCallback() {
+        super.disconnectedCallback();
+        const dropdownWrapper = this.shadowRoot?.querySelector('.dropdown-wrapper');
+        dropdownWrapper?.removeEventListener('click', this.showMenu);
+        dropdownWrapper?.removeEventListener('mouseover', this.showMenu);
     }
     async mouseOut() {
         if (!this.hold) {
@@ -94,67 +158,6 @@ let Dropdown = class Dropdown extends LitElement {
     mouseOVer() {
         if (this.timeout)
             clearTimeout(this.timeout);
-    }
-    async showMenu() {
-        const menuWrapper = this.shadowRoot?.querySelector('.dropdown-wrapper');
-        const mwcMenu = this.shadowRoot?.querySelector('#mwcMenu');
-        const menuSurface = mwcMenu?.shadowRoot
-            ?.querySelector('mwc-menu-surface')
-            ?.shadowRoot?.querySelector('.mdc-menu-surface');
-        const menuList = mwcMenu?.shadowRoot?.querySelector('mwc-list')?.shadowRoot?.querySelector('.mdc-deprecated-list');
-        if (menuWrapper && mwcMenu && menuSurface && menuList) {
-            // fix scroll and shadow
-            menuSurface.style.overflow = 'visible';
-            menuSurface.style.borderRadius = '8px';
-            menuSurface.style.overflow = 'hidden';
-            menuSurface.style.boxShadow = '0px 2px 8px #2a39590a, 0px 16px 32px #3f527a1f';
-            menuSurface.style.zIndex = '9999';
-            menuList.style.padding = 'var(--mdc-list-vertical-padding, 0) 0';
-            if (this.fixed) {
-                const menuClientRect = menuWrapper.getBoundingClientRect();
-                if (this.withDialog) {
-                    const host = this.shadowRoot?.host;
-                    host.style.setProperty('--with-dialog-left', `0`);
-                    host.style.setProperty('--with-dialog-top', `0`);
-                    mwcMenu.classList.add('with-dialog');
-                    timeout(0).then(() => {
-                        const mwcMenu = this.shadowRoot?.querySelector('#mwcMenu');
-                        const mwcRect = mwcMenu.getBoundingClientRect();
-                        if (this.withArrow) {
-                            host.style.setProperty('--with-dialog-left', `${menuClientRect.x - mwcRect.x - 15}px`);
-                            host.style.setProperty('--with-dialog-top', `${menuClientRect.y - mwcRect.y + menuClientRect.height + 15}px`);
-                            host.style.setProperty('--with-arrow-left', `${menuClientRect.x - mwcRect.x}px`);
-                            host.style.setProperty('--with-arrow-top', `${menuClientRect.y - mwcRect.y + menuClientRect.height - 15}px`);
-                            mwcMenu.classList.add('with-arrow');
-                        }
-                        else {
-                            host.style.setProperty('--with-dialog-left', `${menuClientRect.x - mwcRect.x}px`);
-                            host.style.setProperty('--with-dialog-top', `${menuClientRect.y - mwcRect.y + menuClientRect.height}px`);
-                            mwcMenu.classList.add('with-dialog');
-                        }
-                    });
-                }
-                else {
-                    mwcMenu.fixed = true;
-                    if (this.position === 'BOTTOM_LEFT') {
-                        mwcMenu.x = menuClientRect.left / 2;
-                        mwcMenu.y = (menuClientRect.top + menuClientRect.height) / 2;
-                    }
-                    else if (this.position === 'TOP_LEFT') {
-                        mwcMenu.x = menuClientRect.left / 2;
-                        mwcMenu.y = menuClientRect.top / 2;
-                    }
-                }
-            }
-            else {
-                mwcMenu.anchor = menuWrapper;
-                mwcMenu.corner = this.position;
-            }
-            if (!this.minWidth) {
-                this.minWidth = `${menuWrapper.offsetWidth}px`;
-            }
-            mwcMenu.show();
-        }
     }
     removeArrow() {
         const mwcMenu = this.shadowRoot?.querySelector('#mwcMenu');
@@ -215,7 +218,7 @@ __decorate([
     __metadata("design:type", String)
 ], Dropdown.prototype, "minWidth", void 0);
 __decorate([
-    property(),
+    property({ type: Object }),
     __metadata("design:type", Object)
 ], Dropdown.prototype, "fixed", void 0);
 __decorate([

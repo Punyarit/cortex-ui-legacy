@@ -7,15 +7,14 @@ const findEmptySlot = (slots) => {
     const slotName = slot.attributes.getNamedItem('name')?.value;
     if (slotName) {
       const sit = slot.assignedNodes();
-      Object.assign(obj, {[slotName]: sit.length === 0 ? true : false});
+      Object.assign(obj, { [slotName]: sit.length === 0 ? true : false });
     }
   });
   return obj;
 };
 const checkBrowser = () => {
   switch (true) {
-    case (navigator.userAgent.indexOf('Opera') ||
-      navigator.userAgent.indexOf('OPR')) != -1:
+    case (navigator.userAgent.indexOf('Opera') || navigator.userAgent.indexOf('OPR')) != -1:
       return 'Opera';
     case navigator.userAgent.indexOf('Chrome') != -1:
       return 'Chrome';
@@ -27,12 +26,9 @@ const checkBrowser = () => {
       break;
   }
 };
-const capitalize = (string) =>
-  string && string[0].toUpperCase() + string.slice(1);
+const capitalize = (string) => string && string[0].toUpperCase() + string.slice(1);
 const setBrowserTabName = (tabname) => {
-  document.title = tabname
-    ? `${capitalize(tabname.replace(/-/g, ' '))} - Cortex`
-    : 'Cortex';
+  document.title = tabname ? `${capitalize(tabname.replace(/-/g, ' '))} - Cortex` : 'Cortex';
 };
 const customEvent = (element, event, data) => {
   element.dispatchEvent(
@@ -154,9 +150,7 @@ const get = (eventName, callback) => {
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 const getById = (componentId, eventName, callback) => {
-  document.body
-    .querySelector(`#${componentId}`)
-    ?.addEventListener(eventName, callback);
+  document.body.querySelector(`#${componentId}`)?.addEventListener(eventName, callback);
 };
 // FIXME: typing
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -168,9 +162,7 @@ const remove = (eventName, callback) => {
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 const removeById = (componentId, eventName, callback) => {
-  document.body
-    .querySelector(`#${componentId}`)
-    ?.removeEventListener(eventName, callback);
+  document.body.querySelector(`#${componentId}`)?.removeEventListener(eventName, callback);
 };
 // FIXME: typing
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -254,9 +246,7 @@ const transition = (
 ) => {
   if (checkBy === 'always' || location.pathname !== checkBy) {
     const transitionElement = document.body.querySelector(`#${transitionId}`);
-    const transitionRoot = transitionElement?.shadowRoot?.querySelector(
-      '.transition-wrapper'
-    );
+    const transitionRoot = transitionElement?.shadowRoot?.querySelector('.transition-wrapper');
     transitionRoot?.classList.add('fill-mode');
     transitionRoot?.classList.remove(animationIn);
     transitionRoot?.classList.add(animationOut);
@@ -288,9 +278,10 @@ const setPageTitle = (titlePage) => {
 };
 const setPreviousPageTitle = () => {
   const cLayout = document.body.querySelector('c-layout');
-  const titleName = firstParam(
-    localStorage.getItem('c-layout-previousUrl' || '') || ''
-  ).replace(/-/g, ' ');
+  const titleName = firstParam(localStorage.getItem('c-layout-previousUrl' || '') || '').replace(
+    /-/g,
+    ' '
+  );
   cLayout.forcedTitleName = titleName;
   return {
     setActiveSidebar: cLayout.setActiveSidebar.bind(cLayout),
@@ -338,6 +329,11 @@ const external = (environment) => {
     service,
   };
 };
+const noticeMenu = (menuName, isNotice = true) => {
+  const layoutRef = document.querySelector('c-layout');
+  layoutRef.noticeMenu(menuName, isNotice);
+};
+module.exports.noticeMenu = noticeMenu;
 module.exports.activeSidebar = activeSidebar;
 module.exports.asyncClear = asyncClear;
 module.exports.asyncEvent = asyncEvent;

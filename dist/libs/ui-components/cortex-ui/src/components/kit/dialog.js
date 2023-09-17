@@ -13,6 +13,14 @@ let Dialog = class Dialog extends LitElement {
         this.dialogOpen = false;
         this.radius = '16px';
         this.dialogScroll = true;
+        this.onKeyupEvent = (e) => {
+            if (!this.disableBackdrop) {
+                e.key === 'Escape' && this.closeDialog();
+            }
+        };
+        this.onClickEvent = (event) => {
+            event.target.id === 'dialog-wrapper' && this.disableBackdrop === false && this.closeDialog();
+        };
     }
     render() {
         return html `
@@ -46,14 +54,8 @@ let Dialog = class Dialog extends LitElement {
     connectedCallback() {
         super.connectedCallback();
         const wrapper = this.shadowRoot?.querySelector('#dialog-wrapper');
-        document.addEventListener('keyup', e => {
-            if (!this.disableBackdrop) {
-                e.key === 'Escape' && this.closeDialog();
-            }
-        });
-        wrapper?.addEventListener('click', event => {
-            event.target.id === 'dialog-wrapper' && this.disableBackdrop === false && this.closeDialog();
-        });
+        document.addEventListener('keyup', this.onKeyupEvent);
+        wrapper?.addEventListener('click', this.onClickEvent);
     }
     firstUpdated() {
         const slots = this.shadowRoot?.querySelectorAll('slot');
@@ -127,6 +129,9 @@ let Dialog = class Dialog extends LitElement {
     }
     disconnectedCallback() {
         super.disconnectedCallback();
+        document.removeEventListener('keyup', this.onKeyupEvent);
+        const wrapper = this.shadowRoot?.querySelector('#dialog-wrapper');
+        wrapper?.removeEventListener('click', this.onClickEvent);
         !this.disableBackdrop && window.removeEventListener('click', this.closeDialog);
         window.removeEventListener('keydown', this.closeDialog);
     }

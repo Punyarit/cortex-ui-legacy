@@ -1,4 +1,5 @@
-import { html, LitElement } from 'lit';
+/* eslint-disable */
+import { html, LitElement, PropertyValueMap } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import ui from '../../functions';
 import { checkBrowser, customEvent, firstParam, setBrowserTabName, timeout } from '../../helper/helper';
@@ -17,6 +18,10 @@ import './dropdown';
 export class Layout extends LitElement {
   static styles = [layoutStyle];
 
+  @property({ type: Object })
+  userMenus = [];
+
+  @state()
   private menus = [
     {
       text: 'ออกจากระบบ',
@@ -102,6 +107,9 @@ export class Layout extends LitElement {
   @property()
   activePath?: string;
 
+  @property({ type: Object })
+  manualActivePath = false;
+
   @property()
   forcedTitleName?: string;
 
@@ -110,6 +118,19 @@ export class Layout extends LitElement {
 
   @state()
   isLocationEllipsis = false;
+
+  @property({ type: Object })
+  isIframeDialogOpen = false;
+
+  @property({ type: String })
+  iframeDialogBackdropDuration = 200;
+
+  private iframeTimeout?: unknown;
+
+  private iframeDialogBackdrop?: {
+    title: HTMLElement;
+    sidebar: HTMLElement;
+  };
 
   render() {
     return html`
@@ -122,9 +143,12 @@ export class Layout extends LitElement {
           --width-calc-viewport: ${this.isFullScreen ? '64px' : '128px'};
           --page-height-calc: ${!this.header || this.isFullScreen ? '0px' : '66px'};
           --title-height: ${this.titleHeight};
+          --iframeDialogBackdropDuration: ${this.iframeDialogBackdropDuration}ms;
         }
       </style>
 
+      <div class="isIframeDialog-title"></div>
+      <div class="isIframeDialog-sidebar"></div>
       <div class="layout-wrapper">
         <!-- sidebar -->
         ${this.isFullScreen
@@ -148,25 +172,29 @@ export class Layout extends LitElement {
                 </div>
 
                 <div class="menu-list-wrapper">
-                  ${this.sideMenu?.map(menu => {
+                  ${this.sideMenu?.map(menuValue => {
                     return html`
                       <div class="menu-wrapper-outside">
                         <div
-                          class="menu-wrapper ${menu?.active?.some(
-                            menu => menu?.replace(/-/g, ' ') === this.titleName?.toLowerCase()
-                          ) ||
-                          this.titleName?.toLowerCase() === menu.name.toLowerCase() ||
-                          menu.name.toLowerCase() === this.activePath?.toLowerCase()
+                          class="menu-wrapper ${(
+                            this.activePath
+                              ? menuValue.name.toLowerCase() === this.activePath?.toLowerCase()
+                              : menuValue?.active?.some(
+                                  menu => menu?.replace(/-/g, ' ') === this.titleName?.toLowerCase()
+                                ) || this.titleName?.toLowerCase() === menuValue.name.toLowerCase()
+                          )
                             ? 'menu-active'
                             : ''}"
-                          @click="${() => this.selectMenu(menu)}"
+                          @click="${() => this.selectMenu(menuValue)}"
                         >
-                          <c-tooltip message="${menu.name}" position="center">
+                          <c-tooltip message="${menuValue.name}" position="center">
                             <div class="icon-wrapper">
-                              <c-icon size="24" icon="${menu.icon}"> </c-icon>
+                              <c-icon size="24" icon="${menuValue.icon}" style="position:relative">
+                                ${menuValue.isNotice ? html`<div class="menu-notification"></div>` : undefined}
+                              </c-icon>
                             </div>
                           </c-tooltip>
-                          <span class="menu-text">${menu.name}</span>
+                          <span class="menu-text">${menuValue.name}</span>
                         </div>
                       </div>
                     `;
@@ -251,6 +279,15 @@ export class Layout extends LitElement {
       );
   }
 
+  noticeMenu(menuName: string, isNotice = true) {
+    this.sideMenu.forEach((menu, index) => {
+      if (menuName === menu.name.toLowerCase()) {
+        this.sideMenu[index].isNotice = isNotice;
+        this.requestUpdate('sideMenu');
+      }
+    });
+  }
+
   displayDialogClose(e: CustomEvent) {
     this.displayDialog = e.detail.open;
   }
@@ -268,20 +305,24 @@ export class Layout extends LitElement {
     this.displayDialog = true;
   }
 
-  menuAction(action: string) {
-    switch (action) {
-      case 'setDisplay':
-        this.displayDialogOpen();
-        break;
+  menuAction(action: string | Function) {
+    if (typeof action === 'function') {
+      action();
+    } else {
+      switch (action) {
+        case 'setDisplay':
+          this.displayDialogOpen();
+          break;
 
-      case 'logOut':
-        localStorage.removeItem('theme');
-        this.onDisplatchEvent(action);
-        break;
+        case 'logOut':
+          localStorage.removeItem('theme');
+          this.onDisplatchEvent(action);
+          break;
 
-      default:
-        this.onDisplatchEvent(action);
-        break;
+        default:
+          this.onDisplatchEvent(action);
+          break;
+      }
     }
   }
 
@@ -340,7 +381,59 @@ export class Layout extends LitElement {
     localStorage.setItem('c-layout-currentUrl', location.pathname);
   }
 
+  protected willUpdate(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
+    if (_changedProperties.has('userMenus')) {
+      this.menus.unshift(...this.userMenus);
+    }
+
+    super.willUpdate(_changedProperties);
+  }
+
+  updated() {
+    this.iframeDialogOpen();
+  }
+
+  iframeDialogOpen() {
+    if (this.iframeTimeout) {
+      clearTimeout(this.iframeTimeout as number);
+    }
+    if (this.isIframeDialogOpen) {
+      this.createIframeDialogBackdrop();
+      this.setIframeBackdropClassList('add');
+      this.setiframeDialogBackdropOpacity('1');
+    } else if (this.iframeDialogBackdrop?.title.classList.contains('iframe-dialog-background-title')) {
+      this.setiframeDialogBackdropOpacity('0');
+      this.iframeTimeout = setTimeout(() => {
+        this.setIframeBackdropClassList('remove');
+      }, this.iframeDialogBackdropDuration);
+    }
+  }
+
+  setIframeBackdropClassList(classList: 'add' | 'remove') {
+    if (!this.iframeDialogBackdrop?.sidebar) return;
+    this.iframeDialogBackdrop.sidebar.classList[classList]('iframe-dialog-background-sidebar');
+    this.iframeDialogBackdrop.title.classList[classList]('iframe-dialog-background-title');
+  }
+
+  setiframeDialogBackdropOpacity(opaicty: '0' | '1') {
+    if (!this.iframeDialogBackdrop?.sidebar) return;
+    this.iframeDialogBackdrop.sidebar.style.opacity = opaicty;
+    this.iframeDialogBackdrop.title.style.opacity = opaicty;
+  }
+
+  createIframeDialogBackdrop() {
+    if (this.iframeDialogBackdrop) return;
+    this.iframeDialogBackdrop = {
+      sidebar: this.shadowRoot?.querySelector('.isIframeDialog-sidebar') as HTMLElement,
+      title: this.shadowRoot?.querySelector('.isIframeDialog-title') as HTMLElement,
+    };
+  }
+
   async firstUpdated() {
+    setTimeout(() => {
+      this.noticeMenu('home');
+      console.log('layout.js |this.sideBar| = ', this.sideMenu);
+    }, 2000);
     this.observeDom();
     if (this.locationText) {
       this.checkLocationTextEllipsis();

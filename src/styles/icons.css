@@ -103,3 +103,13 @@
   font-family: 'fontello-chevron-right';
   src: url('../assets/icons/chevron-right.woff2') format('woff2');
 }
+
+@font-face {
+  font-family: 'fontello-ct_pin';
+  src: url('../assets/icons/ct_pin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'fontello-bookmark';
+  src: url('../assets/icons/ct_bookmark.woff2') format('woff2');
+}

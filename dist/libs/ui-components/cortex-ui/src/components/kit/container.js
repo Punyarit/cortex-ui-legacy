@@ -13,6 +13,16 @@ let Container = class Container extends LitElement {
         this.loading = false;
         this.spacing = 0;
         this.padding = '0 32px';
+        this.onEvent = (event) => {
+            const container = this.shadowRoot?.querySelector('.content-page-scroll');
+            this.dispatchEvent(new CustomEvent('getScrollEvent', {
+                detail: {
+                    event,
+                    container,
+                },
+                bubbles: true,
+            }));
+        };
     }
     render() {
         return html `
@@ -58,19 +68,16 @@ let Container = class Container extends LitElement {
     firstUpdated() {
         if (this.scrollEvent) {
             const container = this.shadowRoot?.querySelector('.content-page-scroll');
-            container?.addEventListener('scroll', (event) => {
-                this.dispatchEvent(new CustomEvent('getScrollEvent', {
-                    detail: {
-                        event,
-                        container,
-                    },
-                    bubbles: true,
-                }));
-            });
+            container?.addEventListener('scroll', this.onEvent);
         }
         const slots = this.shadowRoot?.querySelectorAll('slot');
         this.emptySlot = findEmptySlot(slots);
         this.requestUpdate();
+    }
+    disconnectedCallback() {
+        super.disconnectedCallback();
+        const container = this.shadowRoot?.querySelector('.content-page-scroll');
+        container?.removeEventListener('scroll', this.onEvent);
     }
     updated() {
         if (this.scrollValue) {

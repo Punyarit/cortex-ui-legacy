@@ -10,6 +10,47 @@ export const layoutStyle = css `
     opacity: 1;
   }
 
+  .menu-notification {
+    width: 10px;
+    height: 10px;
+    background-color: #ce1306;
+    position: absolute;
+    border-radius: 50%;
+    right: 0;
+    top: 0;
+    border: 1px solid white;
+  }
+
+  .isIframeDialog-title,
+  .isIframeDialog-sidebar {
+    transition: opacity var(--iframeDialogBackdropDuration);
+    opacity: 0;
+  }
+
+  .iframe-dialog-background-title {
+    transition: opacity var(--iframeDialogBackdropDuration);
+    opacity: 1;
+    position: absolute;
+    top: 0px;
+    z-index: 101;
+    left: 64px;
+    height: 64px;
+    width: calc(100% - 64px);
+    background-color: #29385980;
+  }
+
+  .iframe-dialog-background-sidebar {
+    transition: opacity var(--iframeDialogBackdropDuration);
+    opacity: 1;
+    position: absolute;
+    top: 0px;
+    z-index: 101;
+    left: 0px;
+    width: 64px;
+    height: 100%;
+    background-color: #29385980;
+  }
+
   .location-text-wrapper {
     white-space: nowrap;
     overflow: hidden;

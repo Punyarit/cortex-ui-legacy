@@ -414,7 +414,7 @@ __decorate([
 ], Autocomplete.prototype, "borderColor", void 0);
 __decorate([
     property({
-        type: Array,
+        type: Object,
     }),
     __metadata("design:type", Array)
 ], Autocomplete.prototype, "options", void 0);
